@@ -1,5 +1,5 @@
 module.exports = function(app) {
 	app.get('/', function(req, res) {
-		res.render('index', { title: 'Korean Sisa' });
+		res.render('index.html', { title: 'Korean Sisa' });
 	});
 }
