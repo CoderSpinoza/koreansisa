@@ -1,0 +1,20 @@
+{
+  "name": "koreansisa",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "angular": "*",
+    "jquery": "*",
+    "bootstrap": "*",
+    "angular-cookies": "1.2.7",
+    "angular-sanitize": "1.2.7",
+    "angular-route": "1.2.7",
+    "angular-animate": "1.2.7",
+    "angular-ui-router": "~0.2.7",
+    "font-awesome": "~4.0.3",
+    "angular-bootstrap": "~0.10.0"
+  }
+}
