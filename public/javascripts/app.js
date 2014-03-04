@@ -10,3 +10,6 @@ var ksApp = angular.module('ksApp', [
 	'ksFilters',
 	'ksDirectives'
 	]);
+
+ksApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+}]);
