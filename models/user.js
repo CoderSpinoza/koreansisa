@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 var User = new Schema({
 	email: {type: String, trim: true},
 	name: {type: String, trim: true},
-	gender: 
+	gender: {type: Boolean}
 });
 
 User.plugin(passportLocalMongoose);
