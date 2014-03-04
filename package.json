@@ -12,6 +12,9 @@
     "passport": "*",
     "passport-local": "*",
     "passport-facebook": "*",
-    "passport-twitter": "*"
+    "passport-twitter": "*",
+    "passport-local-mongoose": "*",
+    "node-env-file": "*",
+    "memcached": "*"
   }
 }
