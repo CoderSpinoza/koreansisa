@@ -14,8 +14,15 @@
     "passport-facebook": "*",
     "passport-twitter": "*",
     "passport-local-mongoose": "*",
+    "request": "*",
     "node-env-file": "*",
     "memcached": "*",
-    "ejs": "*"
+    "ejs": "*",
+    "mocha": "*",
+    "mocha-cakes": "*",
+    "chai": "*",
+    "nock": "*",
+    "sinon": "*",
+    "soda": "*"
   }
 }
