@@ -4,8 +4,6 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
@@ -53,9 +51,10 @@ mongoose.connect(mongooseUri, function(err, res) {
 	}
 });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+// routing
+require('./routes')(app);
 
+// create a server
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
