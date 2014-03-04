@@ -9,6 +9,10 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var app = express();
 
 // all environments
@@ -22,13 +26,32 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if (app.get('env') == 'development' ) {
   app.use(express.errorHandler());
 }
+
+// passport config
+var Account = require('./models/user');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// connect to mongoose
+var mongooseUri = process.env.MONGOHQ_URL || 'mongodb://localhost/koreansisa';
+
+mongoose.connect(mongooseUri, function(err, res) {
+	if (err) {
+		console.log("Error connecting to " + mongooseUri + ": " + err);
+	} else {
+		console.log("Successfully connected to " + mongooseUri);
+	}
+});
 
 app.get('/', routes.index);
 app.get('/users', user.list);
