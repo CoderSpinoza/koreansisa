@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" ng-app="ksApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Korean Sisa</title>
+
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
+		<!-- <link rel="stylesheet" href="css/main.css"> -->
+
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-cookies.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-sanitize.min.js"></script>
+		<script src="/angular-route/angular-route.min.js"></script>
+		<!--<script src="lib/angular/angular-route.min.js"></script>
+		<script src="lib/ui-bootstrap-tpls-0.10.0.min.js"></script>-->
+		<script src="javascripts/app.js"></script>
+		<script src="javascripts/services.js"></script>
+		<script src="javascripts/controllers.js"></script>
+	  <script src="javascripts/filters.js"></script>
+	  <script src="javascripts/directives.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid" id="wrapper">
+			<!-- <nav class="navbar navbar-default" role="navigation" ng-controller="menuCtrl" id="menu">
+				<div>
+					<div class="navbar-header">
+						<a class="navbar-brand" href="index.php">Pipeline</a>
+					</div>
+
+					<div class="navbar-collapse" id="menu-list">
+						<ul class="nav navbar-nav">
+							<li ng-repeat="menu in menus" class="menu-{{menu.id}}" ng-class="getClass('/{{menu.id}}')"><a href="#/{{menu.url}}">{{menu.name}}</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav> -->
+
+			<div ng-view>
+			</div>
+		</div>
+	</body>
+</html>

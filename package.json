@@ -15,6 +15,7 @@
     "passport-twitter": "*",
     "passport-local-mongoose": "*",
     "node-env-file": "*",
-    "memcached": "*"
+    "memcached": "*",
+    "ejs": "*"
   }
 }
