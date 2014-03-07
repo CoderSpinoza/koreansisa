@@ -8,13 +8,16 @@ var http = require('http');
 var path = require('path');
 
 var mongoose = require('mongoose');
+var DatabaseCleaner = require('database-cleaner');
+var databaseCleaner = new DatabaseCleaner('mongodb');
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+app.set('test_port', 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.engine('html', require('ejs').renderFile);
@@ -30,21 +33,22 @@ app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'views')));
 
 // development only
-if (app.get('env') == 'development' ) {
+if (app.get('env') == 'development') {
   app.use(express.errorHandler());
 }
 
 // passport config
-var Account = require('./models/user');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+var User = require('./models/user');
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // connect to mongoose
-var mongooseUri = process.env.MONGOHQ_URL || 'mongodb://localhost/koreansisa';
 
+var mongooseUri = process.argv[2] === "test" ? 'mongodb://localhost/koreansisa_test' : process.env.MONGOHQ_URL || 'mongodb://localhost/koreansisa';
 mongoose.connect(mongooseUri, function(err, res) {
 	if (err) {
 		console.log("Error connecting to " + mongooseUri + ": " + err);
@@ -57,6 +61,8 @@ mongoose.connect(mongooseUri, function(err, res) {
 require('./routes')(app);
 
 // create a server
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+
+var port = process.argv[2] !== "test" ? app.get('port') : app.get('test_port');
+http.createServer(app).listen(port, function(){
+  console.log('Express server listening on port ' + port);
 });
