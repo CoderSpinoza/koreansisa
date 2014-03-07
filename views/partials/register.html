@@ -1,0 +1,35 @@
+<div id="register">
+	<div class="modal-header">
+		<button type="button" class="close display:block" ng-click='closeModal()'>&times;</button>
+		<h2 class="modal-title">Register</h2>
+	</div>
+	
+		<form role="form" name="loginForm" novalidate ng-submit="submit()">
+			<div class="modal-body">
+				<div class="form-group" ng-class="{ 'has-error': registerForm.name.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid }">
+					<input class="form-control" type="text" placeholder="Enter your name" name="name" ng-model="user.name">
+				</div>
+				<div class="form-group">
+					<input class="form-control" type="email" placeholder="Enter your email" ng-model="user.email">
+				</div>
+				<div class="form-group">
+					<input class="form-control" type="password" placeholder="Enter your password" ng-model="user.password">
+				</div>
+				<div class="form-group">
+					<input class="form-control" type="password" placeholder="Confirm your password">
+				</div>
+				<div class="form-group">
+					<select class="form-control" ng-model="user.gender">
+						<option value="1">Male</option>
+						<option value="0">Female</option>
+					</select>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="form-group">
+					<button type="button" class="btn btn-primary">Signup with Facebook</button>
+					<input type="submit" value="Login" class="btn btn-success" ng-disabled="registerForm.$valid || submitting">
+				</div>
+			</div>
+		</form>
+</div>

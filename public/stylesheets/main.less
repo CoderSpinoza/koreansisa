@@ -1,16 +1,53 @@
-/* Extra small devices (phones, less than 768px) */
-/* No media query since this is the default in Bootstrap */
+html {
+	font-family: 'Open Sans',sans-serif;
+	font-weight: 300;
 
-/* Small devices (tablets, 768px and up) */
-@media (min-width: @screen-sm-min) {
+	body {
+		font-family: 'Open Sans',sans-serif;
+		font-weight: 300;
+	}
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: @screen-md-min) {
-
+a {
+	cursor: pointer;
 }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: @screen-lg-min) {
+#wrapper {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+header {
+	background-color: skyblue;
+	min-height: 74px;
+	min-width: 100%;
+	font-size: 14px;
+
+	nav#menu {
+		padding-top: 9px;
+	}
+
+	a {
+		color: white;
+		font-weight: 300;
+		font-size: 18px;
+	}
+
+	a:hover {
+		background-color: transparent;
+		color: white;
+		text-decoration: underline;
+	}
+
+	li:hover {
+		background-color: transparent;
+
+		a:hover {
+			background-color: transparent;
+			color: white;
+			text-decoration: underline;
+		}
+	}
+
 	
 }

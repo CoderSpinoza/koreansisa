@@ -8,6 +8,9 @@ var User = new Schema({
 	gender: {type: Boolean}
 });
 
-User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, {
+	usernameField: 'email',
+	usernameLowerCase: true
+});
 
 module.exports = mongoose.model('User', User);
