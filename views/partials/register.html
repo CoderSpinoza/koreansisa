@@ -4,21 +4,22 @@
 		<h2 class="modal-title">Register</h2>
 	</div>
 	
-		<form role="form" name="loginForm" novalidate ng-submit="submit()">
+		<form role="form" name="registerForm" novalidate ng-submit="submit()">
 			<div class="modal-body">
-				<div class="form-group" ng-class="{ 'has-error': registerForm.name.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid }">
-					<input class="form-control" type="text" placeholder="Enter your name" name="name" ng-model="user.name">
+				<div class="form-group" ng-class="{ 'has-error': registerForm.name.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid, 'has-feedback': registerForm.email.$dirty  }">
+					<input class="form-control" type="text" placeholder="Enter your name" name="name" ng-model="user.name" required ng-minlength=2>
 				</div>
-				<div class="form-group">
-					<input class="form-control" type="email" placeholder="Enter your email" ng-model="user.email">
+				<div class="form-group" ng-class="{ 'has-error': registerForm.email.$invalid && registerForm.email.$dirty, 'has-success': registerForm.email.$valid, 'has-feedback': registerForm.email.$dirty }">
+					<input class="form-control" type="email" placeholder="Enter your email" ng-model="user.email" name="email" required>
+					<span class="text-errors form-control-feedback hide" ng-class="{'hide': !registerForm.email.$dirty, 'glyphicon': registerForm.email.$valid && registerForm.email.$dirty, 'glyphicon-ok': registerForm.email.$valid && registerForm.email.$dirty }"><span ng-show="registerForm.email.$error.required">Email is required.</span><span ng-show="registerForm.email.$error.email">Not a valid email format.</span></span>
 				</div>
-				<div class="form-group">
-					<input class="form-control" type="password" placeholder="Enter your password" ng-model="user.password">
+				<div class="form-group" ng-class="{ 'has-error': registerForm.password.$invalid && registerForm.password.$dirty, 'has-success': registerForm.password.$valid, 'has-feedback': registerForm.password.$dirty }">
+					<input class="form-control" type="password" placeholder="Enter your password" ng-model="user.password" name="password" required ng-minlength=6>
 				</div>
-				<div class="form-group">
-					<input class="form-control" type="password" placeholder="Confirm your password">
+				<div class="form-group" ng-class="{ 'has-error': registerForm.confirmation.$invalid && registerForm.confirmation.$dirty, 'has-success': registerForm.confirmation.$valid, 'has-feedback': registerForm.confirmation.$dirty }">
+					<input class="form-control" type="password" placeholder="Confirm your password" name="confirmation" ng-model="user.confirmation" required ng-minlength=5>
 				</div>
-				<div class="form-group">
+				<div class="form-group", ng-class="{ 'has-error': registerForm.gender.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid, 'has-feedback': registerForm.email.$dirty }">
 					<select class="form-control" ng-model="user.gender">
 						<option value="1">Male</option>
 						<option value="0">Female</option>
@@ -28,7 +29,7 @@
 			<div class="modal-footer">
 				<div class="form-group">
 					<button type="button" class="btn btn-primary">Signup with Facebook</button>
-					<input type="submit" value="Login" class="btn btn-success" ng-disabled="registerForm.$valid || submitting">
+					<input type="submit" value="Login" class="btn btn-success" ng-disabled="registerForm.$invalid || submitting">
 				</div>
 			</div>
 		</form>
