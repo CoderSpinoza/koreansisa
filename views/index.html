@@ -33,7 +33,7 @@
             <div class="navbar-collapse navbar-right" id="menu-list">
               <ul class="nav navbar-nav">
                 <li ng-repeat="menu in menus" class="menu-{{menu.id}}" ng-class="getClass('/{{menu.id}}')"><a href="#/{{menu.url}}">{{menu.name}}</a></li>
-                <li><a id="login-button" ng-click="openModal()">Login</a></li>
+                <li><a id="loginModalButton" ng-click="openModal()">Login</a></li>
               </ul>
             </div>
           </div>

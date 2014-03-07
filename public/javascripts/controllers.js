@@ -37,6 +37,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 	};
 
 	$scope.registerButtonClicked = false;
+	$scope.submitting = false;
 
 	$scope.clickRegisterButton = function() {
 		$scope.registerButtonClicked = !$scope.registerButtonClicked;
@@ -46,24 +47,35 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 
 	$modalInstance.result.then(function() {
 		if ($scope.registerButtonClicked) {
-			console.log("Register gogo");
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/register.html',
 				controller: 'registerCtrl'
 			});
 		}
 	}, function() {
-		console.log("closed");
-	})
-	// $scope.registerButtonClicked = function() {
-	// 	$modalInstance.close(function(result) {
-	// 		result.then(function() {
-	// 			console.log("Success");
-	// 		}, function(){
-	// 			console.log("Reject");
-	// 		});
-	// 	});
-	// };
+	});
+
+	// user model
+
+	$scope.user = {};
+
+	$scope.submit = function() {
+		console.log("login");
+		$http({
+			method: 'POST',
+			url: '/login',
+			data: { user: $scope.user }
+		}).success(function(data) {
+			console.log("success");
+			$scope.submitting = false;
+		}).error(function(error, response) {
+			if (response.statusCode == 404) {
+
+			}
+			$scope.submitting = false;
+		});
+		$scope.submitting = true;
+	}
 
 }]).controller('registerCtrl', ['$scope', '$http', '$modalInstance', function($scope, $http, $modalInstance) {
 	$scope.closeModal = function() {
@@ -74,5 +86,16 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 	$scope.submitting = false;
 	$scope.submit = function() {
 		console.log("submit");
+
+		$http({
+			method: 'POST',
+			url: '/login',
+			data: { user: $scope.user }
+		}).success(function(data) {
+			$scope.submitting = false;
+		}).error(function(error, response) {
+			$scope.submitting = false;
+		});
+		$scope.submitting = true;
 	};
 }]);
