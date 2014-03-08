@@ -39,8 +39,9 @@ header {
 		text-decoration: underline;
 	}
 
-	li:hover {
+	li:hover, li.open {
 		background-color: transparent;
+
 
 		a:hover {
 			background-color: transparent;
@@ -49,6 +50,13 @@ header {
 		}
 	}	
 }
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: transparent;
+}
+
 
 .text-errors {
 	width: 300px !important;

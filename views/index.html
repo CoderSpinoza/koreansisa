@@ -12,6 +12,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-cookies.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-sanitize.min.js"></script>
     <script src="/angular-route/angular-route.min.js"></script>
+    <script src="/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>-->
@@ -33,14 +34,21 @@
             <div class="navbar-collapse navbar-right" id="menu-list">
               <ul class="nav navbar-nav">
                 <li ng-repeat="menu in menus" class="menu-{{menu.id}}" ng-class="getClass('/{{menu.id}}')"><a href="#/{{menu.url}}">{{menu.name}}</a></li>
-                <li><a id="loginModalButton" ng-click="openModal()">Login</a></li>
+                <li><a id="loginModalButton" ng-hide="currentUser" ui-sref="login">Login</a></li>
+                <li class="dropdown" ng-show="currentUser">
+                  <a class="dropdown-toggle">Welcome, {{ currentUser.name }}<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+                  </ul>
+
+                </li>
               </ul>
             </div>
           </div>
         </nav>
       </header>
 
-      <div ng-view>
+      <div ui-view>
       </div>
     </div>
   </body>

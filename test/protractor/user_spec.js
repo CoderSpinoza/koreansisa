@@ -48,13 +48,32 @@ describe('Visiting root', function() {
 		});
 	});
 
-	describe('filling out login form and submitting', function() {
+	describe('filling out login form with incorrect information and submitting', function() {
+		homepage.setEmail('wrongemail@gmail.com');
+		homepage.setPassword('wrongpassword');
+		homepage.submitLoginForm();
+		it('should keep the login form', function() {
+			homepage.emailInput.should.exist;
+			homepage.passwordInput.should.exist;
+			homepage.loginButton.should.exist;
+		});
+
+		it('should display an error message', function() {
+
+		});
+	});
+
+	describe('filling out login form with correct information and submitting', function() {
+		homepage.emailInput.clear();
+		homepage.passwordInput.clear();
 		homepage.setEmail('hara0115@gmail.com');
 		homepage.setPassword('gkfkthdus1');
 		homepage.submitLoginForm();
 
-		// it('should ', function() {
-		
-		// });
+		it('should close the modal', function() {
+			homepage.emailInput.should.not.exist;
+			homepage.passwordInput.should.not.exist;
+			homepage.loginButton.should.not.exist;
+		});
 	});
 });

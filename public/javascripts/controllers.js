@@ -6,7 +6,7 @@
 
 var ksControllers = angular.module('ksControllers', ['ui.bootstrap', 'ksServices']);
 
-ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function($scope, $location, $modal) {
+ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window', 'userService', function($scope, $location, $modal, $window, userService) {
 	$scope.menus = [{
 		"id": "home",
 		"name": "Home",
@@ -20,6 +20,22 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 	$scope.getClass = function(path) {
 		return $location.path().substr(0,path.length) === path ? "active" : "";
 	};
+	console.log(userService);
+	$scope.currentUser = userService.currentUser;
+	// console.log($scope.currentUser);
+	$scope.$watch(function() { return userService.currentUser; }, function(currentUser) {
+		if (currentUser) {
+			$scope.currentUser = currentUser;
+		} else {
+			$scope.currentUser = undefined;
+		}
+	});
+
+	$scope.logout = function() {
+		$window.localStorage.removeItem('currentUser');
+		$window.localStorage.removeItem('token');
+		userService.setUser(undefined);
+	}
 
 	$scope.openModal = function() {
 		var modalInstance = $modal.open({
@@ -31,7 +47,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 
 }]).controller('issuesCtrl', ['$scope', function($scope) {
 
-}]).controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', function($scope, $http, $modal, $modalInstance) {
+}]).controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', '$window', 'userService', '$location', function($scope, $http, $modal, $modalInstance, $window, userService, $location) {
 	$scope.closeModal = function() {
 		$modalInstance.close();
 	};
@@ -40,9 +56,9 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 	$scope.submitting = false;
 
 	$scope.clickRegisterButton = function() {
-		$scope.registerButtonClicked = !$scope.registerButtonClicked;
 		$modalInstance.close();
-		console.log("clicked register");
+		$location.path("/register");
+
 	};
 
 	$modalInstance.result.then(function() {
@@ -60,14 +76,17 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 	$scope.user = {};
 
 	$scope.submit = function() {
-		console.log("login");
 		$http({
 			method: 'POST',
 			url: '/login',
-			data: { user: $scope.user }
-		}).success(function(data) {
-			console.log("success");
+			data: $scope.user,
+		}).success(function(data, status,header, config) {
+			$window.localStorage.currentUser = JSON.stringify(data.user);
+			$window.localStorage.token = data.user.apikey;
+			userService.setUser(data.user);
 			$scope.submitting = false;
+			$modalInstance.close();
+			$location.path("/");
 		}).error(function(error, response) {
 			if (response.statusCode == 404) {
 
@@ -77,22 +96,25 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', function(
 		$scope.submitting = true;
 	}
 
-}]).controller('registerCtrl', ['$scope', '$http', '$modalInstance', function($scope, $http, $modalInstance) {
+}]).controller('registerCtrl', ['$scope', '$http', '$modalInstance', 'userService', '$location', '$window', function($scope, $http, $modalInstance, userService, $location, $window) {
 	$scope.closeModal = function() {
 		$modalInstance.close();
 	};
 
-	$scope.user = {gender: 1};
+	$scope.user = {gender: 1, provider: 'local'};
 	$scope.submitting = false;
 	$scope.submit = function() {
-		console.log("submit");
-
 		$http({
 			method: 'POST',
-			url: '/login',
-			data: { user: $scope.user }
+			url: '/register',
+			data: $scope.user,
 		}).success(function(data) {
+			$window.localStorage.currentUser = JSON.stringify(data.user);
+			$window.localStorage.token = data.user.apikey;
+			userService.setUser(data.user);
 			$scope.submitting = false;
+			$modalInstance.close();
+			$location.path("/");
 		}).error(function(error, response) {
 			$scope.submitting = false;
 		});
