@@ -13,6 +13,7 @@ var databaseCleaner = new DatabaseCleaner('mongodb');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var LocalAPIKeyStrategy = require('passport-localapikey').Strategy;
 var app = express();
 
 // all environments
@@ -30,6 +31,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.bodyParser());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
@@ -43,6 +45,14 @@ if (app.get('env') == 'development') {
 // passport config
 var User = require('./models/user');
 passport.use(User.createStrategy());
+passport.use(new LocalAPIKeyStrategy(function(apikey, done) {
+	User.findOne({apikey: apikey}, function(err, user) {
+		if (err) return done(err);
+    if (!user) return done(null, false);
+    return done(null, user);
+	});
+}));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 

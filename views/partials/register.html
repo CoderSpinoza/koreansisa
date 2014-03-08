@@ -6,8 +6,9 @@
 	
 		<form role="form" name="registerForm" novalidate ng-submit="submit()">
 			<div class="modal-body">
-				<div class="form-group" ng-class="{ 'has-error': registerForm.name.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid, 'has-feedback': registerForm.email.$dirty  }">
-					<input class="form-control" type="text" placeholder="Enter your name" name="name" ng-model="user.name" required ng-minlength=2>
+				<div class="form-group" ng-class="{ 'has-error': registerForm.name.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid, 'has-feedback': registerForm.name.$dirty  }">
+					<input class="form-control" type="text" placeholder="Enter your name" name="name" ng-model="user.name" required ng-minlength=3>
+					<span class="text-errors form-control-feedback hide" ng-class="{'hide': !registerForm.name.$dirty, 'glyphicon': registerForm.name.$valid && registerForm.name.$dirty, 'glyphicon-ok': registerForm.name.$valid && registerForm.name.$dirty }"><span ng-show="registerForm.name.$error.required">Name is required.</span><span ng-show="registerForm.name.$error.minlength">Name should be at least 3 characters.</span></span>
 				</div>
 				<div class="form-group" ng-class="{ 'has-error': registerForm.email.$invalid && registerForm.email.$dirty, 'has-success': registerForm.email.$valid, 'has-feedback': registerForm.email.$dirty }">
 					<input class="form-control" type="email" placeholder="Enter your email" ng-model="user.email" name="email" required>
@@ -15,12 +16,14 @@
 				</div>
 				<div class="form-group" ng-class="{ 'has-error': registerForm.password.$invalid && registerForm.password.$dirty, 'has-success': registerForm.password.$valid, 'has-feedback': registerForm.password.$dirty }">
 					<input class="form-control" type="password" placeholder="Enter your password" ng-model="user.password" name="password" required ng-minlength=6>
+					<span class="text-errors form-control-feedback hide" ng-class="{'hide': !registerForm.password.$dirty, 'glyphicon': registerForm.password.$valid && registerForm.password.$dirty, 'glyphicon-ok': registerForm.password.$valid && registerForm.password.$dirty }"><span ng-show="registerForm.password.$error.required">Password is required.</span><span ng-show="registerForm.password.$error.minlength">Password should be at least 6 characters.</span></span>
 				</div>
 				<div class="form-group" ng-class="{ 'has-error': registerForm.confirmation.$invalid && registerForm.confirmation.$dirty, 'has-success': registerForm.confirmation.$valid, 'has-feedback': registerForm.confirmation.$dirty }">
-					<input class="form-control" type="password" placeholder="Confirm your password" name="confirmation" ng-model="user.confirmation" required ng-minlength=5>
+					<input class="form-control" type="password" placeholder="Confirm your password" name="confirmation" ng-model="user.confirmation" required ng-minlength=6>
+					<span class="text-errors form-control-feedback hide" ng-class="{'hide': !registerForm.confirmation.$dirty, 'glyphicon': registerForm.confirmation.$valid && registerForm.confirmation.$dirty, 'glyphicon-ok': registerForm.confirmation.$valid && registerForm.confirmation.$dirty }"><span ng-show="registerForm.confirmation.$error.required">Confirmation is required.</span><span ng-show="registerForm.confirmation.$error.minlength">Confirmation should be at least 6 characters.</span></span>
 				</div>
-				<div class="form-group", ng-class="{ 'has-error': registerForm.gender.$invalid && registerForm.name.$dirty, 'has-success': registerForm.name.$valid, 'has-feedback': registerForm.email.$dirty }">
-					<select class="form-control" ng-model="user.gender">
+				<div class="form-group" ng-class="{ 'has-error': registerForm.gender.$invalid, 'has-success': registerForm.gender.$valid, 'has-feedback': registerForm.gender.$dirty }">
+					<select class="form-control" name="gender" ng-model="user.gender" required>
 						<option value="1">Male</option>
 						<option value="0">Female</option>
 					</select>
@@ -29,7 +32,7 @@
 			<div class="modal-footer">
 				<div class="form-group">
 					<button type="button" class="btn btn-primary">Signup with Facebook</button>
-					<input type="submit" value="Login" class="btn btn-success" ng-disabled="registerForm.$invalid || submitting">
+					<input type="submit" value="Register" class="btn btn-success" ng-disabled="registerForm.$invalid || submitting">
 				</div>
 			</div>
 		</form>

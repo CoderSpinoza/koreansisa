@@ -6,7 +6,7 @@ var User = require('../models/user');
 
 module.exports = function(app) {
 	app.post('/register', function(req, res) {
-		User.register(new User({ email: req.body.email, name: req.body.name, gender: req.body.gender }), req.body.password, function(err, user) {
+		User.register(req.body, req.body.password, function(err, user) {
 			if (err) return res.status(401).send({ message: err.toString(), user: user});
 			passport.authenticate('local')(req, res, function() {
 				return res.status(200).send({user: user});
@@ -27,4 +27,10 @@ module.exports = function(app) {
 		req.logOut();
 		return res.status(200).send();
 	});
+
+	app.get('/api/authenticate', function(req, res) {
+		User.findOne({apikey: req.query.token}, function(err, user) {
+			return res.send({user: user});
+		});
+	})
 };
