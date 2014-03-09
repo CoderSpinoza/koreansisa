@@ -31,7 +31,7 @@
 			</div>
 			<div class="modal-footer">
 				<div class="form-group">
-					<button type="button" class="btn btn-primary">Signup with Facebook</button>
+					<a class="btn btn-primary" ng-click="checkFbLoginStatus()" ng-disabled="!facebookReady">Sign Up with Facebook</a>
 					<input type="submit" value="Register" class="btn btn-success" ng-disabled="registerForm.$invalid || submitting">
 				</div>
 			</div>

@@ -14,6 +14,9 @@ var databaseCleaner = new DatabaseCleaner('mongodb');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var LocalAPIKeyStrategy = require('passport-localapikey').Strategy;
+
+env = require('node-env-file');
+
 var app = express();
 
 process.env.PWD = process.cwd();
@@ -39,6 +42,7 @@ app.use(express.static(path.join(process.env.PWD, 'public')));
 app.use(express.static(path.join(process.env.PWD, 'bower_components')));
 app.use(express.static(path.join(process.env.PWD, 'views')));
 
+env(process.env.PWD + '/.env');
 // development only
 if (app.get('env') == 'development') {
   app.use(express.errorHandler());
