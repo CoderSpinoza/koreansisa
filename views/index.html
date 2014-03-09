@@ -16,7 +16,6 @@
     <script src="/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>-->
     <script src="javascripts/app.js"></script>
     <script src="javascripts/services.js"></script>
     <script src="javascripts/controllers.js"></script>
@@ -37,9 +36,10 @@
                 <li ng-repeat="menu in menus" class="menu-{{menu.id}}" ng-class="getClass('/{{menu.id}}')"><a href="#/{{menu.url}}">{{menu.name}}</a></li>
                 <li><a id="loginModalButton" ng-hide="currentUser" ui-sref="login">Login</a></li>
                 <li class="dropdown" ng-show="currentUser">
-                  <a class="dropdown-toggle">Welcome, {{ currentUser.name }}<b class="caret"></b></a>
+                  <a class="dropdown-toggle">{{ currentUser.name }}<b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+                    <li><a ui-sref="profile">Profile</a></li>
+                    <li><a ng-click="logout()">Logout</a></li>
                   </ul>
 
                 </li>
@@ -49,7 +49,7 @@
         </nav>
       </header>
 
-      <div ui-view>
+      <div ui-view class="col-md-12">
       </div>
     </div>
   </body>
