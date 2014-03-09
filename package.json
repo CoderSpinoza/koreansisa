@@ -1,6 +1,10 @@
 {
   "name": "koreansisa",
   "version": "0.0.1",
+  "engines": {
+    "node": "*",
+    "npm": "1.3.21"
+  },
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -17,7 +21,6 @@
     "passport-localapikey": "*",
     "passport-local-mongoose": "*",
     "jwt-simple": "*",
-    "express-jwt": "*",
     "request": "*",
     "node-env-file": "*",
     "memcached": "*",
