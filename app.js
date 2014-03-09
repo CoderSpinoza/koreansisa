@@ -16,6 +16,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var LocalAPIKeyStrategy = require('passport-localapikey').Strategy;
 var app = express();
 
+process.env.PWD = process.cwd();
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('test_port', 5000);
@@ -33,9 +35,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.bodyParser());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'bower_components')));
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(process.env.PWD, 'public')));
+app.use(express.static(path.join(process.env.PWD, 'bower_components')));
+app.use(express.static(path.join(process.env.PWD, 'views')));
 
 // development only
 if (app.get('env') == 'development') {
