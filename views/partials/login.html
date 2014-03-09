@@ -18,8 +18,8 @@
 		<div class="modal-footer">
 			<div class="form-group">
 				<button type="button" class="btn btn-danger" ng-click="clickRegisterButton()">Register</button>
-				<button type="button" class="btn btn-warning">Forgot your password?</button>
-				<button type="button" class="btn btn-primary">Login with Facebook</button>
+				<button type="button" class="btn btn-warning" disabled>Forgot your password?</button>
+				<button type="button" class="btn btn-primary" ng-click="checkFbLoginStatus()">Login with Facebook</button>
 				<input type="submit" value="Login" id="loginButton" class="btn btn-success" ng-disabled="loginForm.$invalid || submitting">
 			</div>
 		</div>

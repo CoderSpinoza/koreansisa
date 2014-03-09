@@ -32,5 +32,12 @@ module.exports = function(app) {
 		User.findOne({apikey: req.query.token}, function(err, user) {
 			return res.send({user: user});
 		});
-	})
+	});
+
+	app.get('/user/facebook', function(req, res) {
+		User.findOne({ facebookId: req.query.fbId}, function(err, user) {
+			if (user) return res.send({ user: user});
+			return res.status(404).send({});
+		});
+	});
 };

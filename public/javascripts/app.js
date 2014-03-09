@@ -9,7 +9,8 @@ var ksApp = angular.module('ksApp', [
 	'ksServices',
 	'ksFilters',
 	'ksDirectives',
-	'ui.router'
+	'ui.router',
+	'facebook'
 	]);
 
 // .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
@@ -56,5 +57,8 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			}
 		});
 	$urlRouterProvider.otherwise("/home");
+}]);
 
+ksApp.config(['FacebookProvider', function(FacebookProvider) {
+	FacebookProvider.init('221620501369131');
 }]);

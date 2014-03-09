@@ -8,9 +8,12 @@ var User = new Schema({
 	email: {type: String, trim: true, unique: true, required: true},
 	name: {type: String, trim: true, required: true},
 	gender: {type: Boolean, required: true},
-	provider: {type: String, required: true},
 	createdDate: {type: Date, default: Date.now},
-	apikey: {type: String}
+	apikey: {type: String},
+	facebook: {type: Boolean, default: false},
+	twitter: { type: Boolean, default: false},
+	facebookId: { type: String },
+	twitterId: { type: String }
 });
 
 User.plugin(passportLocalMongoose, {
