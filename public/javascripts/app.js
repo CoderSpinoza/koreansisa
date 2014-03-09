@@ -13,17 +13,6 @@ var ksApp = angular.module('ksApp', [
 	'facebook'
 	]);
 
-// .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-// 	$routeProvider.when('/home', {
-// 		templateUrl: '/home/index.html',
-// 		controller: 'homeCtrl'
-// 	}).when('/issues', {
-// 		templateUrl: '/issues/index.html',
-// 		controller: 'issuesCtrl'
-// 	}).otherwise({
-// 		redirectTo: '/home'
-// 	})
-// }]).
 ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
 	
@@ -31,6 +20,23 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 		.state('home', {
 			url: "/home",
 			templateUrl: "home/index.html"
+		})
+		.state('issues', {
+			url: "/issues",
+			templateUrl: "issues/index.html"
+		})
+		.state('issues.new', {
+			url: "/issues/new",
+			onEnter: function($stateParams, $state, $modal) {
+				$modal.open({
+					templateUrl: "issues/new.html",
+					controller: "newIssueCtrl"
+				}).result.then(function(result) {
+
+				}, function() {
+					return $state.transitionTo("issues");
+				});
+			}
 		})
 		.state('register', {
 			url: "/register",
@@ -44,7 +50,8 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 					return $state.transitionTo("home");
 				});
 			}
-		}).state('login', {
+		})
+		.state('login', {
 			url: "/login",
 			onEnter: function($stateParams, $state, $modal) {
 				$modal.open({
@@ -55,6 +62,14 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 					return $state.transitionTo("home");
 				});
 			}
+		})
+		.state('profile', {
+			url: "/profile",
+			templateUrl: "users/show.html"
+		})
+		.state('trending', {
+			url: "/trending",
+			templateUrl: "posts/index.html"
 		});
 	$urlRouterProvider.otherwise("/home");
 }]);

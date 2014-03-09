@@ -15,6 +15,10 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		"id": "issues",
 		"name": "Issues",
 		"url": "issues"
+	}, {
+		"id": "trending",
+		"name": "Trending",
+		"url": "trending"
 	}];
 
 	$scope.getClass = function(path) {
@@ -33,6 +37,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		$window.localStorage.removeItem('currentUser');
 		$window.localStorage.removeItem('token');
 		userService.setUser(undefined);
+		$location.path("/");
 	}
 
 	$scope.openModal = function() {
@@ -43,8 +48,8 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	};
 }]).controller('homeCtrl', ['$scope', function($scope) {
 
-}]).controller('issuesCtrl', ['$scope', function($scope) {
-
+}]).controller('issuesCtrl', ['$scope', 'userService', function($scope, userService) {
+	$scope.currentUser = userService.currentUser;
 }]).controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', '$window', 'userService', '$location', 'Facebook', function($scope, $http, $modal, $modalInstance, $window, userService, $location, Facebook) {
 	$scope.closeModal = function() {
 		$modalInstance.close();
@@ -70,6 +75,8 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	});
 
 	// user model
+
+	
 
 	$scope.user = {};
 
@@ -264,4 +271,20 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		});
 		$scope.submitting = true;
 	};
+}]).controller('newIssueCtrl', ['$scope', '$http', '$location', '$modalInstance', function($scope, $http, $location, $modalInstance) {
+	$scope.issue = {};
+
+	$scope.submit = function() {
+		$http({
+			method: 'POST',
+			url: '/issues',
+			data: $scope.issue
+		}).success(function(data, status, config, headers) {
+			$modalInstance.close();
+			$location.path("/issues");
+		}).error(function(data, status, config, headers) {
+
+		});
+	};
+
 }]);
