@@ -37,7 +37,33 @@ module.exports = function(app) {
 	app.get('/user/facebook', function(req, res) {
 		User.findOne({ facebookId: req.query.fbId}, function(err, user) {
 			if (user) return res.send({ user: user});
-			return res.status(404).send({});
+			User.findOne({ email: req.query.email}, function(err, user) {
+				if (user) return res.send({user: user});
+				return res.status(404).send({});
+			});
+			
+		});
+	});
+
+	app.get('/user/twitter', function(req, res) {
+		User.findOne({ twitterId: req.query.twitterId}, function(err, user) {
+			if (user) return res.send({user: user});
+			return res.status(404).send();
+		});
+	});
+
+	app.get('/twitter/connect', function(req, res) {
+		User.findById(req.query.id, function(err, user) {
+			if (user) {
+				user.twitterId = req.query.twitterId;
+				user.twitter = true;
+				user.save(function(err) {
+					if (err) return res.status(400);
+					return res.send({user: user, message: "Successfully connected twitter account."});
+				});
+			} else {
+				return res.status(404);
+			}
 		});
 	});
 };

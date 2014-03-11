@@ -1,0 +1,28 @@
+<div id="login">
+	<div class="modal-header">
+		<button type="button" class="close display:block" ng-click="closeModal()" ng-submit="submit()">&times;</button>
+		<h2 class="modal-title">Login</h2>
+	</div>
+	
+	<form role="form" name="loginForm" id="loginForm" novalidate ng-submit="submit()">
+		<div class="modal-body">
+			<div class="form-group" ng-class="{'has-error': loginForm.email.$invalid && loginForm.email.$dirty, 'has-success': loginForm.email.$valid, 'has-feedback': loginForm.email.$dirty}">
+				<input class="form-control" type="email" placeholder="Enter your email" ng-model="user.email" name="email" required autofocus/>
+				<span class="text-errors form-control-feedback hide" ng-class="{'hide': !loginForm.email.$dirty, 'glyphicon': loginForm.email.$valid && loginForm.email.$dirty, 'glyphicon-ok': loginForm.email.$valid && loginForm.email.$dirty }"><span ng-show="loginForm.email.$error.required">Email is required.</span><span ng-show="loginForm.email.$error.email">Not a valid email format.</span></span>
+			</div>
+			<div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty, 'has-success': loginForm.password.$valid, 'has-feedback': loginForm.password.$dirty}">
+				<input class="form-control" type="password" placeholder="Enter your password" name="password" required ng-minlength=6 ng-model="user.password">
+				<span class="text-errors form-control-feedback hide" ng-class="{'hide': !loginForm.password.$dirty, 'glyphicon': loginForm.password.$valid && loginForm.password.$dirty, 'glyphicon-ok': loginForm.password.$valid && loginForm.password.$dirty }"><span ng-show="loginForm.password.$error.required">Password is required.</span><span ng-show="loginForm.password.$error.minlength">Password should be longer than 5 letters.</span></span>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="form-group">
+				<button type="button" class="btn btn-danger" ng-click="clickRegisterButton()">Register</button>
+				<button type="button" class="btn btn-warning" disabled>Forgot your password?</button>
+				<button type="button" class="btn btn-primary" ng-click="checkFbLoginStatus()">Login with Facebook</button>
+				<a class='btn btn-info' ng-click="checkTwitterLoginStatus()">Login with Twitter</a>
+				<input type="submit" value="Login" id="loginButton" class="btn btn-success" ng-disabled="loginForm.$invalid || submitting">
+			</div>
+		</div>
+	</form>
+</div>

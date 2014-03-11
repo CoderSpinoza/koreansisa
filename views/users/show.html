@@ -1,3 +1,18 @@
-<div id="profile">
-	Profile
+<div id="authentication" ng-controller="userShowCtrl">
+	<table class="table table-stripped table-condensed">
+		<tr>
+			<th><h4>Authentication</h4></th>
+			<th></th>
+		</tr>
+		<tr>
+			<td>Facebook</td>
+			<td ng-show="user.facebook">Connected</td>
+			<td ng-hide="user.facebook">Connect</td>
+		</tr>
+		<tr>
+			<td>Twitter</td>
+			<td ng-show="user.twitter">Connected</td>
+			<td ng-hide="user.twitter"><a ng-click="connectTwitter()">Connect</a></td>
+		</tr>
+	</table>
 </div>
