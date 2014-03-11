@@ -48,8 +48,17 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	};
 }]).controller('homeCtrl', ['$scope', function($scope) {
 
-}]).controller('issuesCtrl', ['$scope', 'userService', function($scope, userService) {
+}]).controller('issuesCtrl', ['$scope', '$http', 'userService', function($scope, $http, userService) {
 	$scope.currentUser = userService.currentUser;
+
+	$http({
+		method: 'GET',
+		url: '/issues'
+	}).success(function(data, status, config, headers) {
+		$scope.issues = data.issues;
+	}).error(function(data, status, config, headers) {
+
+	});
 }]).controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', '$window', 'userService', '$location', 'Facebook', function($scope, $http, $modal, $modalInstance, $window, userService, $location, Facebook) {
 	$scope.closeModal = function() {
 		$modalInstance.close();
