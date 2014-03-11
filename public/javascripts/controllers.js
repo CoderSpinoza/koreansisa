@@ -40,12 +40,6 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		$location.path("/");
 	}
 
-	$scope.openModal = function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'partials/login.html',
-			controller: 'loginCtrl'
-		});
-	};
 }]).controller('homeCtrl', ['$scope', function($scope) {
 
 }]).controller('issuesCtrl', ['$scope', '$http', 'userService', function($scope, $http, userService) {
@@ -64,7 +58,6 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		$modalInstance.close();
 	};
 
-	$scope.registerButtonClicked = false;
 	$scope.submitting = false;
 
 	$scope.clickRegisterButton = function() {
@@ -73,20 +66,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 
 	};
 
-	$modalInstance.result.then(function() {
-		if ($scope.registerButtonClicked) {
-			var modalInstance = $modal.open({
-				templateUrl: 'partials/register.html',
-				controller: 'registerCtrl'
-			});
-		}
-	}, function() {
-	});
-
 	// user model
-
-	
-
 	$scope.user = {};
 
 	// facebook functions
@@ -152,6 +132,34 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 			});
 		}
 	});
+
+	$scope.twitterUser;
+	// twitter oauth
+	$scope.checkTwitterLoginStatus = function() {
+		OAuth.popup('twitter', function(err, result) {
+			result.get('/1.1/account/verify_credentials.json').done(function(data) {
+				$scope.twitterUser = data;
+				if ($scope.twitterUser.id) {
+					$http({
+						method: 'GET',
+						url: '/user/twitter',
+						params: {twitterId: $scope.twitterUser.id, email: $scope.twitterUser.email}
+					}).success(function(data, status, config, headers) {
+						$window.localStorage.currentUser = JSON.stringify(data.user);
+						userService.setUser(data.user);
+						$modalInstance.close();
+						$location.path("/");
+					}).error(function(data, status, config, headers) {
+						if (status == 404) {
+							$scope.user.name = $scope.twitterUser.name;
+							$scope.user.twitter = true;
+							$scope.user.twitterId = $scope.twitterUser.id;
+						}
+					});
+				}
+			});
+		});
+	};
 
 	$scope.submit = function() {
 		$http({
@@ -244,7 +252,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 			$http({
 				method: 'GET',
 				url: '/user/facebook',
-				params: { fbId: fbId }
+				params: { fbId: fbId, email: $scope.user.email }
 			}).success(function(data, status, config, headers) {
 				$window.localStorage.currentUser = JSON.stringify(data.user);
 				$window.localStorage.token = data.user.apikey;
@@ -262,6 +270,31 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 			});
 		}
 	});
+
+	$scope.twitterUser;
+	// twitter oauth
+	$scope.checkTwitterLoginStatus = function() {
+		OAuth.popup('twitter', function(err, result) {
+			result.get('/1.1/account/verify_credentials.json').done(function(data) {
+				$scope.twitterUser;
+				if ($scope.twitterUser.id) {
+					$http({
+						method: 'GET',
+						url: '/user/twitter',
+						params: {twitterId: $scope.twitterUser.id, email: $scope.twitterUser.email}
+					}).success(function(data, status, config, headers) {
+
+					}).error(function(data, status, config, headers) {
+						if (status == 404) {
+							$scope.user.name = $scope.twitterUser.name;
+							$scope.user.twitter = true;
+							$scope.user.twitterId = $scope.twitterUser.id;
+						}
+					});
+				}
+			});
+		});
+	};
 
 	$scope.submit = function() {
 		$http({
@@ -293,6 +326,34 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 			$location.path("/issues");
 		}).error(function(data, status, config, headers) {
 
+		});
+	};
+
+}]).controller('userShowCtrl', ['$scope', '$http', '$location', 'userService', function($scope, $http, $location, userService) {
+	$scope.user = JSON.parse(window.localStorage.currentUser);
+	console.log($scope.user);
+	$scope.connectTwitter = function() {
+		OAuth.popup('twitter', function(err, result) {
+			result.get('/1.1/account/verify_credentials.json').done(function(data) {
+				$scope.twitterUser = data;
+				if ($scope.twitterUser.id) {
+					$http({
+						method: 'GET',
+						url: '/twitter/connect',
+						params: {twitterId: $scope.twitterUser.id, id: $scope.user._id}
+					}).success(function(data, status, config, headers) {
+						window.localStorage.currentUser = JSON.stringify(data.user);
+						userService.setUser(data.user);
+						$scope.user = data.user;
+					}).error(function(data, status, config, headers) {
+						// if (status == 404) {
+						// 	$scope.user.name = $scope.twitterUser.name;
+						// 	$scope.user.twitter = true;
+						// 	$scope.user.twitterId = $scope.twitterUser.id;
+						// }
+					});
+				}
+			});
 		});
 	};
 

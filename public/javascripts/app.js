@@ -14,8 +14,6 @@ var ksApp = angular.module('ksApp', [
 	]);
 
 ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-
-	
 	$stateProvider
 		.state('home', {
 			url: "/home",
@@ -42,7 +40,7 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			url: "/register",
 			onEnter: function($stateParams, $state, $modal) {
 				$modal.open({
-					templateUrl: "partials/register.html",
+					templateUrl: "users/register.html",
 					controller: 'registerCtrl'
 				}).result.then(function(result) {
 
@@ -55,8 +53,9 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			url: "/login",
 			onEnter: function($stateParams, $state, $modal) {
 				$modal.open({
-					templateUrl: "partials/login.html",
-					controller: 'loginCtrl'
+					templateUrl: "users/login.html",
+					controller: 'loginCtrl',
+					windowClass: 'wider-modal'
 				}).result.then(function(result) {
 				}, function(){
 					return $state.transitionTo("home");
@@ -76,4 +75,6 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 
 ksApp.config(['FacebookProvider', function(FacebookProvider) {
 	FacebookProvider.init('221620501369131');
-}]);
+}]).config(function() {
+	OAuth.initialize('BERJco2TyCVe_oCOR-flsHo9CTM', {cache: true});
+});
