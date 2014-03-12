@@ -13,6 +13,8 @@ angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'us
 	};
 
 }]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$stateParams', 'issuesService', function($scope, $http, userService, $stateParams, issuesService) {
+
+	$scope.issueId = $stateParams.issueId;
 	$http({
 		method: 'GET',
 		url: '/api/issues/' + $stateParams.issueId
