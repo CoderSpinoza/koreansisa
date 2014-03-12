@@ -40,4 +40,11 @@ var ksServices = angular.module('ksServices', []).config(function($httpProvider)
     userService.currentUser = user;
   };
   return userService;
+}]).service('issuesService', ['$http', function($http) {
+  var issuesService = {};
+
+  issuesService.setIssue = function(issue) {
+    issuesService.issue = issue;
+  }
+  return issuesService;
 }]);

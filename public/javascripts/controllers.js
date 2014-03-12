@@ -18,7 +18,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	}, {
 		"id": "trending",
 		"name": "Trending",
-		"url": "trending"
+		"url": "posts"
 	}];
 
 	$scope.getClass = function(path) {
@@ -51,8 +51,55 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	}).success(function(data, status, config, headers) {
 		$scope.issues = data.issues;
 	}).error(function(data, status, config, headers) {
+	});
+
+	$scope.scroll = function(element) {
+	};
+
+}]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$stateParams', 'issuesService', function($scope, $http, userService, $stateParams, issuesService) {
+	$http({
+		method: 'GET',
+		url: '/api/issues/' + $stateParams.issueId
+	}).success(function(data, status, config, headers) {
+		$scope.issue = data.issue;
+		issuesService.issue = $scope.issue;
+	}).error(function(data, status, config, headers) {
 
 	});
+}]).controller('postsNewCtrl', ['$scope', '$http', 'userService', 'issuesService', '$state', '$stateParams', '$location', function($scope, $http, userService, issuesService, $state, $stateParams, $location) {
+	$http({
+		method: 'GET',
+		url: '/api/issues/' + $stateParams.issueId
+	}).success(function(data, status, config, headers) {
+		$scope.issue = data.issue;
+		$state.transitionTo($state.$parent);
+	}).error(function(data, status, config, headers) {
+
+	});
+
+	$scope.currentUser = userService.currentUser;
+	$scope.post = {};
+
+	$scope.submit = function() {
+
+		$scope.post.side = $scope.post.side == true ? "Conservative" : "Liberal";
+		$scope.post.author = $scope.currentUser._id;
+		$scope.post.issue = $scope.issue._id;
+		$http({
+			method: 'POST',
+			url: "/api/posts",
+			data: $scope.post,
+			headers: {
+        'Content-type': 'application/json'
+    	}
+		}).success(function(data, status, config, headers) {
+			console.log(data);
+			$location.path("/issues/" + $stateParams.issueId);
+		}).error(function(data, status, config, headers) {
+
+		});
+	};
+
 }]).controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', '$window', 'userService', '$location', 'Facebook', function($scope, $http, $modal, $modalInstance, $window, userService, $location, Facebook) {
 	$scope.closeModal = function() {
 		$modalInstance.close();
@@ -331,7 +378,6 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 
 }]).controller('userShowCtrl', ['$scope', '$http', '$location', 'userService', function($scope, $http, $location, userService) {
 	$scope.user = JSON.parse(window.localStorage.currentUser);
-	console.log($scope.user);
 	$scope.connectTwitter = function() {
 		OAuth.popup('twitter', function(err, result) {
 			result.get('/1.1/account/verify_credentials.json').done(function(data) {

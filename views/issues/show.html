@@ -1,0 +1,27 @@
+<div id="show_post" ng-controller="issuesShowCtrl" ui-view>
+	<div class="row" id="heading">
+		<div class="issue-add" ng-show="currentUser">
+			<button type="button" class="btn btn-success" ui-sref="issues.show.new">Add a New Post</button>
+		</div>
+	</div>
+	<div class="row page-header">
+		<h2>{{issue.title}}</h2>
+	</div>
+	<div class="row jumbotron">
+		<h4>{{issue.description}}</h4>
+	</div>
+
+	<div class="row page-header">
+		<h3>Posts</h3>
+	</div>
+
+	<div class="row">
+		<ul id="posts_list" class="list">
+
+			<li ng-repeat="post in issue.posts" class="col-md-12">
+				<h4><a>{{post.title}}</a></h4>
+				{{post.author.name}}
+			</li>
+		</ul>
+	</div>
+</div>

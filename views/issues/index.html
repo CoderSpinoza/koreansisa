@@ -1,4 +1,4 @@
-<div id="issues_div" ng-controller="issuesCtrl">
+<div id="issues_div" ng-controller="issuesCtrl" ui-view>
 	<div class="row" id="heading">
 		<div class="issue-add" ng-show="currentUser.role == 'admin'">
 			<button type="button" class="btn btn-success" ui-sref="issues.new">Add a New Issue</button>
@@ -28,9 +28,9 @@
 	</div>
 	<div class="row" id="issues">
 		<h2>Issues</h2>
-		<ul id="issues_list">
-			<li ng-repeat="issue in issues" class="col-mid-12">
-				<h4>{{ issue.title}}</h4>
+		<ul id="issues_list" class="list">
+			<li ng-repeat="issue in issues" class="col-md-12">
+				<h4><a href="/#/issues/{{issue._id}}">{{ issue.title}}</a></h4>
 				{{issue.description}}
 		</li>
 		</ul>

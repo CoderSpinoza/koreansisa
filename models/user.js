@@ -15,7 +15,15 @@ var User = new Schema({
 	twitter: { type: Boolean, default: false},
 	facebookId: { type: String },
 	twitterId: { type: String },
-	role: {type: String, default: "user"}
+	role: {type: String, default: "user"},
+	posts: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Post'
+	}],
+	comments: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Comment'
+	}]
 });
 
 User.plugin(passportLocalMongoose, {
