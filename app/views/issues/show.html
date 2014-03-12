@@ -19,7 +19,7 @@
 		<ul id="posts_list" class="list">
 
 			<li ng-repeat="post in issue.posts" class="col-md-12">
-				<h4><a>{{post.title}}</a></h4>
+				<h4><a href="/#/posts/{{post._id}}">{{post.title}}</a></h4>
 				{{post.author.name}}
 			</li>
 		</ul>

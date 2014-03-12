@@ -21,7 +21,12 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 		})
 		.state('issues', {
 			url: "/issues",
-			templateUrl: "issues/index.html"
+			views: {
+				'root@': {
+					templateUrl: "issues/index.html"
+				}
+			}
+			
 		})
 		.state('issues.new', {
 			url: "/new",
@@ -44,6 +49,10 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			url: "/new",
 			templateUrl: "posts/new.html"
 		})
+		// .state('issues.show.show', {
+		// 	url: "/:postId",
+		// 	templateUrl: "posts/show.html"
+		// })
 		.state('register', {
 			url: "/register",
 			onEnter: function($stateParams, $state, $modal) {
@@ -81,6 +90,14 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 		.state('posts.new', {
 			url: "/new",
 			templateUrl: "posts/new.html"
+		})
+		.state('posts.show', {
+			url: "/:postId",
+			views: {
+				'root@': {
+					templateUrl: "posts/show.html"
+				}
+			}
 		});
 	$urlRouterProvider.otherwise("/home");
 }]);
