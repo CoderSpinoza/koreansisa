@@ -24,7 +24,7 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			templateUrl: "issues/index.html"
 		})
 		.state('issues.new', {
-			url: "/issues/new",
+			url: "/new",
 			onEnter: function($stateParams, $state, $modal) {
 				$modal.open({
 					templateUrl: "issues/new.html",
@@ -35,6 +35,14 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 					return $state.transitionTo("issues");
 				});
 			}
+		})
+		.state('issues.show', {
+			url: "/:issueId",
+			templateUrl: "issues/show.html"
+		})
+		.state('issues.show.new', {
+			url: "/new",
+			templateUrl: "posts/new.html"
 		})
 		.state('register', {
 			url: "/register",
@@ -66,9 +74,13 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			url: "/profile",
 			templateUrl: "users/show.html"
 		})
-		.state('trending', {
-			url: "/trending",
+		.state('posts', {
+			url: "/posts",
 			templateUrl: "posts/index.html"
+		})
+		.state('posts.new', {
+			url: "/new",
+			templateUrl: "posts/new.html"
 		});
 	$urlRouterProvider.otherwise("/home");
 }]);
@@ -78,3 +90,5 @@ ksApp.config(['FacebookProvider', function(FacebookProvider) {
 }]).config(function() {
 	OAuth.initialize('BERJco2TyCVe_oCOR-flsHo9CTM', {cache: true});
 });
+
+ksApp.value('$anchorScroll', angular.noop);
