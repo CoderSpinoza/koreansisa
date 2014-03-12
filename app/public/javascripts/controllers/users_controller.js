@@ -1,106 +1,4 @@
-'use strict';
-
-/* *********** *
- * Controllers *
- * *********** */
-
-var ksControllers = angular.module('ksControllers', ['ui.bootstrap', 'ksServices']);
-
-ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window', 'userService', function($scope, $location, $modal, $window, userService) {
-	$scope.menus = [{
-		"id": "home",
-		"name": "Home",
-		"url": "home"
-	}, {
-		"id": "issues",
-		"name": "Issues",
-		"url": "issues"
-	}, {
-		"id": "trending",
-		"name": "Trending",
-		"url": "posts"
-	}];
-
-	$scope.getClass = function(path) {
-		return $location.path().substr(0,path.length) === path ? "active" : "";
-	};
-	$scope.currentUser = userService.currentUser;
-	$scope.$watch(function() { return userService.currentUser; }, function(currentUser) {
-		if (currentUser) {
-			$scope.currentUser = currentUser;
-		} else {
-			$scope.currentUser = undefined;
-		}
-	});
-
-	$scope.logout = function() {
-		$window.localStorage.removeItem('currentUser');
-		$window.localStorage.removeItem('token');
-		userService.setUser(undefined);
-		$location.path("/");
-	}
-
-}]).controller('homeCtrl', ['$scope', function($scope) {
-
-}]).controller('issuesCtrl', ['$scope', '$http', 'userService', function($scope, $http, userService) {
-	$scope.currentUser = userService.currentUser;
-
-	$http({
-		method: 'GET',
-		url: '/issues'
-	}).success(function(data, status, config, headers) {
-		$scope.issues = data.issues;
-	}).error(function(data, status, config, headers) {
-	});
-
-	$scope.scroll = function(element) {
-	};
-
-}]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$stateParams', 'issuesService', function($scope, $http, userService, $stateParams, issuesService) {
-	$http({
-		method: 'GET',
-		url: '/api/issues/' + $stateParams.issueId
-	}).success(function(data, status, config, headers) {
-		$scope.issue = data.issue;
-		issuesService.issue = $scope.issue;
-	}).error(function(data, status, config, headers) {
-
-	});
-}]).controller('postsNewCtrl', ['$scope', '$http', 'userService', 'issuesService', '$state', '$stateParams', '$location', function($scope, $http, userService, issuesService, $state, $stateParams, $location) {
-	$http({
-		method: 'GET',
-		url: '/api/issues/' + $stateParams.issueId
-	}).success(function(data, status, config, headers) {
-		$scope.issue = data.issue;
-		$state.transitionTo($state.$parent);
-	}).error(function(data, status, config, headers) {
-
-	});
-
-	$scope.currentUser = userService.currentUser;
-	$scope.post = {};
-
-	$scope.submit = function() {
-
-		$scope.post.side = $scope.post.side == true ? "Conservative" : "Liberal";
-		$scope.post.author = $scope.currentUser._id;
-		$scope.post.issue = $scope.issue._id;
-		$http({
-			method: 'POST',
-			url: "/api/posts",
-			data: $scope.post,
-			headers: {
-        'Content-type': 'application/json'
-    	}
-		}).success(function(data, status, config, headers) {
-			console.log(data);
-			$location.path("/issues/" + $stateParams.issueId);
-		}).error(function(data, status, config, headers) {
-
-		});
-	};
-
-}]).controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', '$window', 'userService', '$location', 'Facebook', function($scope, $http, $modal, $modalInstance, $window, userService, $location, Facebook) {
+angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$modal', '$modalInstance', '$window', 'userService', '$location', 'Facebook', function($scope, $http, $modal, $modalInstance, $window, userService, $location, Facebook) {
 	$scope.closeModal = function() {
 		$modalInstance.close();
 	};
@@ -109,7 +7,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 
 	$scope.clickRegisterButton = function() {
 		$modalInstance.close();
-		$location.path("/register");
+		$location.path("/api/register");
 
 	};
 
@@ -162,7 +60,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		if (fbId) {
 			$http({
 				method: 'GET',
-				url: '/user/facebook',
+				url: '/api/user/facebook',
 				params: { fbId: fbId }
 			}).success(function(data, status, config, headers) {
 				$window.localStorage.currentUser = JSON.stringify(data.user);
@@ -189,7 +87,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 				if ($scope.twitterUser.id) {
 					$http({
 						method: 'GET',
-						url: '/user/twitter',
+						url: '/api/user/twitter',
 						params: {twitterId: $scope.twitterUser.id, email: $scope.twitterUser.email}
 					}).success(function(data, status, config, headers) {
 						$window.localStorage.currentUser = JSON.stringify(data.user);
@@ -211,7 +109,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	$scope.submit = function() {
 		$http({
 			method: 'POST',
-			url: '/login',
+			url: '/api/login',
 			data: $scope.user,
 		}).success(function(data, status,header, config) {
 			$window.localStorage.currentUser = JSON.stringify(data.user);
@@ -298,7 +196,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		if (fbId) {
 			$http({
 				method: 'GET',
-				url: '/user/facebook',
+				url: '/api/user/facebook',
 				params: { fbId: fbId, email: $scope.user.email }
 			}).success(function(data, status, config, headers) {
 				$window.localStorage.currentUser = JSON.stringify(data.user);
@@ -327,7 +225,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 				if ($scope.twitterUser.id) {
 					$http({
 						method: 'GET',
-						url: '/user/twitter',
+						url: '/api/user/twitter',
 						params: {twitterId: $scope.twitterUser.id, email: $scope.twitterUser.email}
 					}).success(function(data, status, config, headers) {
 
@@ -346,7 +244,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 	$scope.submit = function() {
 		$http({
 			method: 'POST',
-			url: '/register',
+			url: '/api/register',
 			data: $scope.user,
 		}).success(function(data) {
 			$window.localStorage.currentUser = JSON.stringify(data.user);
@@ -360,22 +258,6 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		});
 		$scope.submitting = true;
 	};
-}]).controller('newIssueCtrl', ['$scope', '$http', '$location', '$modalInstance', function($scope, $http, $location, $modalInstance) {
-	$scope.issue = {};
-
-	$scope.submit = function() {
-		$http({
-			method: 'POST',
-			url: '/issues',
-			data: $scope.issue
-		}).success(function(data, status, config, headers) {
-			$modalInstance.close();
-			$location.path("/issues");
-		}).error(function(data, status, config, headers) {
-
-		});
-	};
-
 }]).controller('userShowCtrl', ['$scope', '$http', '$location', 'userService', function($scope, $http, $location, userService) {
 	$scope.user = JSON.parse(window.localStorage.currentUser);
 	$scope.connectTwitter = function() {
@@ -385,7 +267,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 				if ($scope.twitterUser.id) {
 					$http({
 						method: 'GET',
-						url: '/twitter/connect',
+						url: '/api/twitter/connect',
 						params: {twitterId: $scope.twitterUser.id, id: $scope.user._id}
 					}).success(function(data, status, config, headers) {
 						window.localStorage.currentUser = JSON.stringify(data.user);
