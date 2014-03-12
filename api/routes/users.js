@@ -5,7 +5,7 @@ var User = require('../models/user');
  */
 
 module.exports = function(app) {
-	app.post('/register', function(req, res) {
+	app.post('/api/register', function(req, res) {
 		User.register(req.body, req.body.password, function(err, user) {
 			if (err) return res.status(401).send({ message: err.toString(), user: user});
 			passport.authenticate('local')(req, res, function() {
@@ -14,7 +14,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post('/login', function(req, res) {
+	app.post('/api/login', function(req, res) {
 		passport.authenticate('local', function(err, user, info) {
 			if (err) return res.status(401).send({message: "There was an error processing your login request."});
 			if (!user) return res.status(404).send({message: "Invalid email or password."});
@@ -23,7 +23,7 @@ module.exports = function(app) {
 		})(req, res);
 	});
 
-	app.post('/logout', function(req, res) {
+	app.post('/api/logout', function(req, res) {
 		req.logOut();
 		return res.status(200).send();
 	});
@@ -34,7 +34,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.get('/user/facebook', function(req, res) {
+	app.get('/api/user/facebook', function(req, res) {
 		User.findOne({ facebookId: req.query.fbId}, function(err, user) {
 			if (user) return res.send({ user: user});
 			User.findOne({ email: req.query.email}, function(err, user) {

@@ -38,9 +38,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.bodyParser());
 app.use(app.router);
-app.use(express.static(path.join(process.env.PWD, 'public')));
+console.log(path.join(process.env.PWD, 'app/public'));
+app.use(express.static(path.join(process.env.PWD, 'app/public')));
 app.use(express.static(path.join(process.env.PWD, 'bower_components')));
-app.use(express.static(path.join(process.env.PWD, 'views')));
+app.use(express.static(path.join(process.env.PWD, 'app/views')));
 
 env(process.env.PWD + '/.env');
 // development only
@@ -49,7 +50,7 @@ if (app.get('env') == 'development') {
 }
 
 // passport config
-var User = require('./models/user');
+var User = require('./api/models/user');
 passport.use(User.createStrategy());
 passport.use(new LocalAPIKeyStrategy(function(apikey, done) {
 	User.findOne({apikey: apikey}, function(err, user) {
@@ -74,7 +75,7 @@ mongoose.connect(mongooseUri, function(err, res) {
 });
 
 // routing
-require('./routes')(app);
+require('./api/routes')(app);
 
 // create a server
 
