@@ -1,16 +1,18 @@
 <div id="new_post" ng-controller="postsNewCtrl">
 	<form class="form" role="form" name="postForm" novalidate ng-submit="submit()">
 		<h2>Add a new post</h2>
+		<div class="form-group">
+			Issue: <a>{{issue.title}}</a>
+		</div>
+		<div><label for "side">Choose your side</label></div>
 		<div class="form-group btn-group">
-			<button type="button" class="btn btn-danger side" ng-model="post.side" btn-checkbox>Conservative</button>
-			<button type="button" class="btn btn-primary side" ng-model="post.side" btn-checkbox>Liberal</button>
+			<button type="button" class="btn btn-danger side" ng-model="post.side" name="side" btn-checkbox>Conservative</button>
+			<button type="button" class="btn btn-primary side" ng-model="post.side" name="side" btn-checkbox>Liberal</button>
 		</div>
 		<div class="form-group">
 			<input class="form-control" type="text" placeholder="Enter title" name="title" ng-model="post.title">
 		</div>
-		<div class="form-group">
-			<textarea class="form-control" type="text" placeholder="Enter text" name="text" ng-model="post.text" rows="20"></textarea>
-		</div>
+		<div text-angular name="text" ng-model="post.text"></div>
 		<div class="form-group">
 			<input type="submit" value="Submit" class="btn btn-success">
 		</div>

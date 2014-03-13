@@ -6,6 +6,5 @@
 		<a>{{post.author.name}}</a>
 	</div>
 
-	<div class="row">
-		<p>{{post.text}}</p>
+	<div class="row" ng-bind-html="post.text">
 </div>

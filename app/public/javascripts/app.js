@@ -10,7 +10,8 @@ var ksApp = angular.module('ksApp', [
 	'ksFilters',
 	'ksDirectives',
 	'ui.router',
-	'facebook'
+	'facebook',
+	'textAngular'
 	]);
 
 ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -89,7 +90,12 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 		})
 		.state('posts.new', {
 			url: "/new",
-			templateUrl: "posts/new.html"
+			views: {
+				'root@': {
+					templateUrl: "posts/new.html"
+				}
+			}
+			
 		})
 		.state('posts.show', {
 			url: "/:postId",

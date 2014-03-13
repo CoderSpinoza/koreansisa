@@ -4,7 +4,6 @@ angular.module('ksControllers').controller('postsNewCtrl', ['$scope', '$http', '
 		url: '/api/issues/' + $stateParams.issueId
 	}).success(function(data, status, config, headers) {
 		$scope.issue = data.issue;
-		$state.transitionTo($state.$parent);
 	}).error(function(data, status, config, headers) {
 
 	});
@@ -13,7 +12,6 @@ angular.module('ksControllers').controller('postsNewCtrl', ['$scope', '$http', '
 	$scope.post = {};
 
 	$scope.submit = function() {
-
 		$scope.post.side = $scope.post.side == true ? "Conservative" : "Liberal";
 		$scope.post.author = $scope.currentUser._id;
 		$scope.post.issue = $scope.issue._id;
