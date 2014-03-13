@@ -115,3 +115,9 @@ button.side {
 #show_post {
   width: 1200px;
 }
+div.ta-editor,
+textarea.ta-editor {
+  margin-top: 20px;
+  height: 500px;
+  margin-bottom: 20px;
+}
