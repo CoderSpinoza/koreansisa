@@ -21,6 +21,12 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		"url": "posts"
 	}];
 
+	$scope.navCollapsed = true;
+
+	$scope.toggleNavbar = function() {
+		$scope.navCollapsed = !$scope.navCollapsed;
+	}
+
 	$scope.getClass = function(path) {
 		return $location.path().substr(0,path.length) === path ? "active" : "";
 	};
