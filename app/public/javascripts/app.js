@@ -2,9 +2,9 @@
 
 /* App Module */
 var ksApp = angular.module('ksApp', [
-	'ngRoute',
 	'ngCookies',
 	'ngSanitize',
+	'ngAnimate',
 	'ksControllers',
 	'ksServices',
 	'ksFilters',
@@ -27,7 +27,6 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 					templateUrl: "issues/index.html"
 				}
 			}
-			
 		})
 		.state('issues.new', {
 			url: "/new",
@@ -50,10 +49,6 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			url: "/new",
 			templateUrl: "posts/new.html"
 		})
-		// .state('issues.show.show', {
-		// 	url: "/:postId",
-		// 	templateUrl: "posts/show.html"
-		// })
 		.state('register', {
 			url: "/register",
 			onEnter: function($stateParams, $state, $modal) {
@@ -82,7 +77,11 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 		})
 		.state('profile', {
 			url: "/profile",
-			templateUrl: "users/show.html"
+			views: {
+				'root@': {
+					templateUrl: "users/edit.html"
+				}
+			}
 		})
 		.state('posts', {
 			url: "/posts",
@@ -102,6 +101,14 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 			views: {
 				'root@': {
 					templateUrl: "posts/show.html"
+				}
+			}
+		})
+		.state('posts.edit', {
+			url: "/:postId/edit",
+			views: {
+				'root@': {
+					templateUrl: "/posts/edit.html"
 				}
 			}
 		});

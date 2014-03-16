@@ -8,6 +8,7 @@ var User = new Schema({
 	email: {type: String, trim: true, unique: true, required: true},
 	name: {type: String, trim: true, required: true},
 	gender: {type: Boolean, required: true},
+	age: {type: Number},
 	createdAt: {type: Date, default: Date.now},
 	updatedAt: {type: Date, default: Date.now},
 	apikey: {type: String},
