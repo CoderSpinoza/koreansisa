@@ -30,6 +30,31 @@ angular.module('ksControllers').controller('postsNewCtrl', ['$scope', '$http', '
 		});
 	};
 
+}]).controller('postsEditCtrl', ['$scope', '$http', 'userService', '$state', '$stateParams', '$location', function($scope, $http, userService, $state, $stateParams, $location) {
+
+	$http({
+		method: 'GET',
+		url: '/api/posts/' + $stateParams.postId
+	}).success(function(data, status, config, headers) {
+		$scope.post = data.post;
+		console.log($scope.post);
+	}).error(function(data, status, config, headers) {
+
+	});
+
+	$scope.submit = function() {
+		$http({
+			method: 'PUT',
+			url: "/api/posts/" + $stateParams.postId
+		}).success(function(data, status, config, headers) {
+
+		}).error(function(data, status, config, headers) {
+
+		});
+	}
+
+
+
 }]).controller('postsShowCtrl', ['$scope', '$http', 'userService', '$state', '$stateParams', '$location', function($scope, $http, userService, $state, $stateParams, $location) {
 
 	$http({

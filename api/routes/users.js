@@ -28,6 +28,16 @@ module.exports = function(app) {
 		return res.status(200).send();
 	});
 
+
+	app.put('/api/users/:userId', function(req, res) {
+		delete req.body["_id"];
+		User.findByIdAndUpdate(req.params.userId, req.body, {}, function(err, user) {
+			console.log(err);
+			if (!user) return res.status(404).send({message: "User not found."});
+			return res.send({message: "You have successfully updated your profile", user: user});
+		});
+	});
+
 	app.get('/api/authenticate', function(req, res) {
 		User.findOne({apikey: req.query.token}, function(err, user) {
 			return res.send({user: user});
@@ -45,25 +55,61 @@ module.exports = function(app) {
 		});
 	});
 
-	app.get('/user/twitter', function(req, res) {
+	app.get('/api/user/twitter', function(req, res) {
 		User.findOne({ twitterId: req.query.twitterId}, function(err, user) {
 			if (user) return res.send({user: user});
 			return res.status(404).send();
 		});
 	});
 
-	app.get('/twitter/connect', function(req, res) {
+	app.put('/api/facebook/connect', function(req, res) {
+		User.findById(req.query.id, function(err, user) {
+			if (!user) return res.status(404).send({message: "User not found."});
+			user.facebook = true;
+			user.facebookId = req.query.facebookId;
+			user.save(function(err) {
+				if (err) return res.status(400).send({message: err.toString()});
+				return res.send({message: "Successfully connected your facebook account.", user: user});
+			})
+		})
+	});
+
+	app.put('/api/facebook/disconnect', function(req, res) {
+		User.findById(req.query.id, function(err, user) {
+			if (!user) return res.status(404);
+			user.facebook = false;
+			user.facebookId = undefined;
+			user.save(function(err) {
+				if (err) return res.status(400);
+				return res.send({user: user, message: "Successfully disconnected your facebook account."});
+			})
+		})
+	});
+
+	app.put('/api/twitter/connect', function(req, res) {
 		User.findById(req.query.id, function(err, user) {
 			if (user) {
 				user.twitterId = req.query.twitterId;
 				user.twitter = true;
 				user.save(function(err) {
 					if (err) return res.status(400);
-					return res.send({user: user, message: "Successfully connected twitter account."});
+					return res.send({user: user, message: "Successfully connected your twitter account."});
 				});
 			} else {
 				return res.status(404);
 			}
+		});
+	});
+
+	app.put('/api/twitter/disconnect', function(req, res) {
+		User.findById(req.query.id, function(err, user) {
+			if (!user) return res.status(404);
+			user.twitter = false;
+			user.twitterId = undefined;
+			user.save(function(err) {
+				if (err) return res.status(400);
+				return res.send({user: user, message: "Successfully disconnected your twitter account."});
+			});
 		});
 	});
 };

@@ -1,4 +1,4 @@
-angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'userService', function($scope, $http, userService) {
+angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'userService', '$location', function($scope, $http, userService, $location) {
 	$scope.currentUser = userService.currentUser;
 
 	$http({
@@ -9,8 +9,9 @@ angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'us
 	}).error(function(data, status, config, headers) {
 	});
 
-	$scope.scroll = function(element) {
-	};
+	$scope.clickIssue = function(issueId) {
+		$location.path("/issues/" + issueId);
+	}
 
 }]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$stateParams', 'issuesService', function($scope, $http, userService, $stateParams, issuesService) {
 

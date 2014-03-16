@@ -1,5 +1,6 @@
-<div id="profile_div" ng-controller="userShowCtrl">
+<div id="profile_div" ng-controller="userEditCtrl">
 	<div class="edit_profile">
+		<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)" class="alert-animate">{{alert.message}}</alert>
 		<h3>Edit profile</h3>
 		<form ng-submit="submit()" name="profileForm" role="form">
 			<div class="form-group" ng-class="{ 'has-error': profileForm.name.$invalid, 'has-success': profileForm.name.$valid, 'has-feedback': true}">
@@ -20,23 +21,27 @@
 				<span class="text-errors error-label number form-control-feedback" ng-class="{'glyphicon': profileForm.age.$valid, 'glyphicon-ok': profileForm.age.$valid }"><span ng-show="profileForm.age.$error.number">Age should be a number.</span><span ng-show="profileForm.age.$error.min">Age should be larger than 0</span><span ng-show="profileForm.age.$error.max">Age should be smaller than 1000</span></span>
 			</div>
 			<div class="form-group">
-				<input class="btn btn-success" type="submit" value="Submit">
+				<input class="btn btn-success" type="submit" value="Save" ng-disabled="profileForm.$invalid">
 			</div>
 		</form>
 	</div>
+	<h3>Authentication</h3>
 	<table class="table table-stripped table-condensed">
 		<tr>
-			<th><h4>Authentication</h4></th>
-			<th></th>
+			<th>Authentication</th>
+			<th>Account</th>
+			<th>Action</th>
 		</tr>
 		<tr>
 			<td>Facebook</td>
-			<td ng-show="user.facebook">Connected</td>
-			<td ng-hide="user.facebook">Connect</td>
+			<td></td>
+			<td ng-show="user.facebook"><a ng-click="disconnectFacebook()">Disconnect</a></td>
+			<td ng-hide="user.facebook"><a ng-click="connectFacebook()">Connect</a></td>
 		</tr>
 		<tr>
 			<td>Twitter</td>
-			<td ng-show="user.twitter">Connected</td>
+			<td></td>
+			<td ng-show="user.twitter"><a ng-click="disconnectTwitter()">Disconnect</a></td>
 			<td ng-hide="user.twitter"><a ng-click="connectTwitter()">Connect</a></td>
 		</tr>
 	</table>

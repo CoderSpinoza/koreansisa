@@ -42,6 +42,12 @@ header li.open a:hover {
   color: white;
   text-decoration: underline;
 }
+header .background {
+  background-color: skyblue;
+}
+header .background li a {
+  color: white;
+}
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
@@ -53,8 +59,24 @@ header li.open a:hover {
   top: 0px !important;
   right: 5px !important;
 }
+.text-errors.error-label {
+  width: 300px !important;
+  text-align: right !important;
+  top: 26px !important;
+  right: 5px !important;
+}
+.text-errors.error-label.number {
+  width: 300px !important;
+  text-align: right !important;
+  top: 26px !important;
+  right: 17px !important;
+}
 div#issues_div {
   width: 1200px;
+  margin: 0 auto;
+}
+div#profile_div {
+  width: 800px;
   margin: 0 auto;
 }
 div#hot {
@@ -120,4 +142,20 @@ textarea.ta-editor {
   margin-top: 20px;
   height: 500px;
   margin-bottom: 20px;
+}
+.alert-animate.ng-enter,
+.alert-animate.ng-leave,
+.alert-animate.ng-move {
+  -webkit-transition: 0.2s linear all;
+  -moz-transition: 0.2s linear all;
+  -o-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+}
+.alert-animate.ng-enter,
+.alert-animate.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+.alert-animate.ng-enter.ng-enter-active,
+.alert-animate.ng-leave {
+  opacity: 1;
 }

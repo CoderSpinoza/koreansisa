@@ -7,7 +7,7 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 
 	$scope.clickRegisterButton = function() {
 		$modalInstance.close();
-		$location.path("/api/register");
+		$location.path("/register");
 
 	};
 
@@ -258,31 +258,101 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 		});
 		$scope.submitting = true;
 	};
-}]).controller('userShowCtrl', ['$scope', '$http', '$location', 'userService', function($scope, $http, $location, userService) {
+}]).controller('userEditCtrl', ['$scope', '$http', '$location', 'userService', function($scope, $http, $location, userService) {
 	$scope.user = JSON.parse(window.localStorage.currentUser);
-	$scope.connectTwitter = function() {
-		OAuth.popup('twitter', function(err, result) {
-			result.get('/1.1/account/verify_credentials.json').done(function(data) {
-				$scope.twitterUser = data;
-				if ($scope.twitterUser.id) {
+
+	// alert related functions
+	$scope.alerts = [];
+	$scope.closeAlert = function(index) {
+		$scope.alerts.splice(index, 1);
+	}
+
+	$scope.submit = function() {
+		$scope.updated = false;
+		$http({
+			method: 'PUT',
+			url: '/api/users/' + $scope.user._id,
+			data: $scope.user
+		}).success(function(data, status, config, headers) {
+			console.log(data);
+			window.localStorage.currentUser = JSON.stringify(data.user);
+			userService.setUser(data.user);
+			$scope.alerts.push({message: data.message, type: 'success'});
+		}).error(function(data, status, config, headers) {
+
+		});
+	};
+
+	$scope.connectFacebook = function() {
+		OAuth.popup('facebook', function(err, result) {
+			result.get('/me?fields=email,name,gender').done(function(data) {
+				$scope.facebookUser = data;
+				if ($scope.facebookUser.id) {
 					$http({
-						method: 'GET',
-						url: '/api/twitter/connect',
-						params: {twitterId: $scope.twitterUser.id, id: $scope.user._id}
+						method: 'PUT',
+						url: '/api/facebook/connect',
+						params: {facebookId: $scope.facebookUser.id, id: $scope.user._id}
 					}).success(function(data, status, config, headers) {
-						window.localStorage.currentUser = JSON.stringify(data.user);
-						userService.setUser(data.user);
-						$scope.user = data.user;
+						$scope.alerts.push({message: data.message, type: 'success'});
+						updateUser(data.user);
 					}).error(function(data, status, config, headers) {
-						// if (status == 404) {
-						// 	$scope.user.name = $scope.twitterUser.name;
-						// 	$scope.user.twitter = true;
-						// 	$scope.user.twitterId = $scope.twitterUser.id;
-						// }
+
 					});
 				}
 			});
 		});
 	};
+	$scope.disconnectFacebook = function() {
+		$http({
+			method: 'PUT',
+			url: '/api/facebook/disconnect',
+			params: { id: $scope.user._id}
+		}).success(function(data, status, config, headers) {
+			$scope.alerts.push({message: data.message, type: 'success'});
+			updateUser(data.user);
+		}).error(function(data, status, config, headers) {
 
+		});
+	};
+
+	$scope.connectTwitter = function() {
+		OAuth.popup('twitter', function(err, result) {
+			result.get('/1.1/account/verify_credentials.json').done(function(data) {
+				$scope.twitterUser = data;
+				console.log($scope.twitterUser.id);
+				if ($scope.twitterUser.id) {
+					$http({
+						method: 'PUT',
+						url: '/api/twitter/connect',
+						params: {twitterId: $scope.twitterUser.id, id: $scope.user._id}
+					}).success(function(data, status, config, headers) {
+						$scope.alerts.push({message: data.message, type: 'success'});
+						updateUser(data.user);
+
+						$scope.user = data.user;
+					}).error(function(data, status, config, headers) {
+					});
+				}
+			});
+		});
+	};
+	$scope.disconnectTwitter = function() {
+		$http({
+			method: 'PUT',
+			url: '/api/twitter/disconnect',
+			params: {id: $scope.user._id}
+		}).success(function(data, status, config, headers) {
+			$scope.alerts.push({message: data.message, type: 'success'});
+			updateUser(data.user);
+			
+		}).error(function(data, status, config, headers) {
+			$scope.alerts.push({message: data.message, type: 'danger'});
+		});
+	};
+
+	var updateUser = function(user) {
+		$scope.user = user;
+		window.localStorage.currentUser = JSON.stringify(user);
+		userService.setUser(user);
+	}
 }]);
