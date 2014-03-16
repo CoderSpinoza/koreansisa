@@ -14,12 +14,19 @@ a {
   padding-right: 0px;
 }
 header {
+  background-color: skyblue;
   min-width: 100%;
   font-size: 14px;
 }
 header .navbar {
   border: none;
   border-radius: 0px;
+}
+header .navbar-header button.navbar-toggle {
+  border: 1px solid white;
+}
+header .navbar-header button.navbar-toggle span.icon-bar {
+  background-color: white;
 }
 header a {
   color: white;
@@ -93,6 +100,17 @@ div#hot div {
 #hot3 {
   color: white;
   height: 300px;
+}
+#hot1 h1,
+#hot2 h1,
+#hot3 h1,
+#hot1 h2,
+#hot2 h2,
+#hot3 h2,
+#hot1 h3,
+#hot2 h3,
+#hot3 h3 {
+  color: white;
 }
 #hot1 {
   background-color: #e74c3c;

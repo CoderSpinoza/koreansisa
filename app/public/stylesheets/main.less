@@ -18,8 +18,7 @@ a {
 }
 
 header {
-	// background-color: skyblue;
-	// min-height: 74px;
+	background-color: skyblue;
 	min-width: 100%;
 	font-size: 14px;
 
@@ -27,8 +26,15 @@ header {
 		border: none;
 		border-radius: 0px;
 	}
-	nav#menu {
-		// padding-top: 9px;
+	
+	.navbar-header {
+		button.navbar-toggle {
+			border: 1px solid white;
+
+			span.icon-bar {
+				background-color: white;
+			}
+		}
 	}
 
 	a {
@@ -115,6 +121,9 @@ div#hot {
 #hot1, #hot2, #hot3 {
 	color: white;
 	height: 300px;
+	h1, h2, h3 {
+		color: white;
+	}
 }
 #hot1 {
 	background-color: #e74c3c;
