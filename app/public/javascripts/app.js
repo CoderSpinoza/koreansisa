@@ -18,7 +18,11 @@ ksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 	$stateProvider
 		.state('home', {
 			url: "/home",
-			templateUrl: "home/index.html"
+			views: {
+				'root@': {
+					templateUrl: "home/index.html"
+				}
+			}
 		})
 		.state('issues', {
 			url: "/issues",

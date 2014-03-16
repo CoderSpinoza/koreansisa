@@ -14,13 +14,12 @@ a {
   padding-right: 0px;
 }
 header {
-  background-color: skyblue;
-  min-height: 74px;
   min-width: 100%;
   font-size: 14px;
 }
-header nav#menu {
-  padding-top: 9px;
+header .navbar {
+  border: none;
+  border-radius: 0px;
 }
 header a {
   color: white;
@@ -70,6 +69,10 @@ header .background li a {
   text-align: right !important;
   top: 26px !important;
   right: 17px !important;
+}
+div#home-div {
+  width: 1200px;
+  margin: 0 auto;
 }
 div#issues_div {
   width: 1200px;
