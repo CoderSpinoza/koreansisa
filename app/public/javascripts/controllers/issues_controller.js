@@ -13,6 +13,17 @@ angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'us
 		$location.path("/issues/" + issueId);
 	}
 
+	$scope.numConservative = function(issue) {
+		return issue.posts.filter(function(post) {return post.side == "Conservative"}).length;
+	};
+	$scope.numLiberal = function(issue) {
+		return issue.posts.filter(function(post) {return post.side == "Liberal"}).length;
+	};
+
+	$scope.hover = function(issue) {
+		issue.hover = !issue.hover;
+	};
+	
 }]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$stateParams', 'issuesService', function($scope, $http, userService, $stateParams, issuesService) {
 
 	$scope.issueId = $stateParams.issueId;

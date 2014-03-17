@@ -9,21 +9,57 @@
 	</div>
 	
 	<div id="hot" class="row">
-		<div id="hot1" class="col-md-4" ng-if="issues.length > 0" ng-click="clickIssue(issues[0]._id)">
+		<div id="hot1" class="col-md-4" ng-if="issues.length > 0" ng-click="clickIssue(issues[0]._id)" ng-mouseenter="hover(issues[0])" ng-mouseleave="hover(issues[0])">
 			<h3>{{issues[0].title}}</h3>
 			{{issues[0].description}}
 			{{issues[0].summary}}
-
+			
+			<div class="bottom col-md-11" ng-show="issues[0].hover">
+				<div class="row">
+					<span class="col-md-4 text-center">Conservative</span>
+					<span class="col-md-4 text-center">Liberal</span>
+					<span class="col-md-4 text-center">Posts</span>
+				</div>
+				<div class="row">
+					<span class="col-md-4 text-center">{{numConservative(issues[0])}}</span>
+					<span class="col-md-4 text-center">{{numLiberal(issues[0])}}</span>
+					<span class="col-md-4 text-center">{{issues[0].posts.length}}</span>
+				</div>
+			</div>
 		</div>
-		<div id="hot2" class="col-md-4" ng-if="issues.length > 1" ng-click="clickIssue(issues[1]._id)">
+		<div id="hot2" class="col-md-4" ng-if="issues.length > 1" ng-click="clickIssue(issues[1]._id)" ng-mouseenter="hover(issues[1])" ng-mouseleave="hover(issues[1])">
 			<h3>{{issues[1].title}}</h3>
 			{{issues[1].description}}
 			{{issues[1].summary}}
+			<div class="bottom col-md-11" ng-show="issues[1].hover">
+				<div class="row">
+					<span class="col-md-4 text-center">Conservative</span>
+					<span class="col-md-4 text-center">Liberal</span>
+					<span class="col-md-4 text-center">Posts</span>
+				</div>
+				<div class="row">
+					<span class="col-md-4 text-center">{{numConservative(issues[1])}}</span>
+					<span class="col-md-4 text-center">{{numLiberal(issues[1])}}</span>
+					<span class="col-md-4 text-center">{{issues[1].posts.length}}</span>
+				</div>
+			</div>
 		</div>
-		<div id="hot3" class="col-md-4" ng-if="issues.length > 2" ng-click="clickIssue(issues[2]._id)">
+		<div id="hot3" class="col-md-4" ng-if="issues.length > 2" ng-click="clickIssue(issues[2]._id)" ng-mouseenter="hover(issues[2])" ng-mouseleave="hover(issues[2])">
 			<h3>{{issues[2].title}}</h3>
 			{{issues[2].description}}
 			{{issues[2].summary}}
+			<div class="bottom col-md-11" ng-show="issues[2].hover">
+				<div class="row">
+					<span class="col-md-4 text-center">Conservative</span>
+					<span class="col-md-4 text-center">Liberal</span>
+					<span class="col-md-4 text-center">Posts</span>
+				</div>
+				<div class="row">
+					<span class="col-md-4 text-center">{{numConservative(issues[2])}}</span>
+					<span class="col-md-4 text-center">{{numLiberal(issues[2])}}</span>
+					<span class="col-md-4 text-center">{{issues[2].posts.length}}</span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="row" id="issues">
