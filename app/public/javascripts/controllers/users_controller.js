@@ -7,7 +7,14 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 
 	$scope.clickRegisterButton = function() {
 		$modalInstance.close();
-		$location.path("/register");
+		$modal.open({
+			templateUrl: "users/register.html",
+			controller: 'registerCtrl'
+		}).result.then(function(result) {
+
+		}, function() {
+			return $state.transitionTo("home");
+		});
 
 	};
 
@@ -67,7 +74,10 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 				$window.localStorage.token = data.user.apikey;
 				userService.setUser(data.user);
 				$modalInstance.close();
-				$location.path("/");
+				if (window.localStorage.prevUrl) {
+					$location.path(window.localStorage.prevUrl);
+					window.localStorage.prevUrl = undefined;
+				}
 			}).error(function(data, status, config, headers) {
 				if (status == 404) {
 					userService.fbUser = $scope.fbUser;
@@ -93,7 +103,6 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 						$window.localStorage.currentUser = JSON.stringify(data.user);
 						userService.setUser(data.user);
 						$modalInstance.close();
-						$location.path("/");
 					}).error(function(data, status, config, headers) {
 						if (status == 404) {
 							$scope.user.name = $scope.twitterUser.name;
@@ -117,7 +126,6 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 			userService.setUser(data.user);
 			$scope.submitting = false;
 			$modalInstance.close();
-			$location.path("/");
 		}).error(function(error, response) {
 			if (response.statusCode == 404) {
 
@@ -203,7 +211,6 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 				$window.localStorage.token = data.user.apikey;
 				userService.setUser(data.user);
 				$modalInstance.close();
-				$location.path("/");
 			}).error(function(data, status, config, headers) {
 				if (status == 404) {
 					$scope.user.name = $scope.fbUser.name;
@@ -259,6 +266,13 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 		$scope.submitting = true;
 	};
 }]).controller('userEditCtrl', ['$scope', '$http', '$location', 'userService', function($scope, $http, $location, userService) {
+
+	if (!window.localStorage.currentUser) {
+		window.localStorage.prevUrl = $location.path();
+		$location.path("/login");
+		return;
+	}
+
 	$scope.user = JSON.parse(window.localStorage.currentUser);
 
 	// alert related functions

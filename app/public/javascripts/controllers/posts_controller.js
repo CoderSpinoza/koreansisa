@@ -1,4 +1,19 @@
-angular.module('ksControllers').controller('postsNewCtrl', ['$scope', '$http', 'userService', 'issuesService', '$state', '$stateParams', '$location', function($scope, $http, userService, issuesService, $state, $stateParams, $location) {
+angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$http', function($location, $http) {
+	$http({
+		method: 'GET',
+		url: '/api/posts'
+	}).success(function(data, status, config, headers) {
+
+	}).error(function(data, status, config, headers) {
+
+	});
+}]).controller('postsNewCtrl', ['$window', '$scope', '$http', 'userService', 'issuesService', '$state', '$stateParams', '$location', function($window, $scope, $http, userService, issuesService, $state, $stateParams, $location) {
+
+	if (!userService.currentUser) {
+		$window.localStorage.prevUrl = $location.path();
+		$location.path("/login");
+		return;
+	}
 	$http({
 		method: 'GET',
 		url: '/api/issues/' + $stateParams.issueId
