@@ -4,6 +4,13 @@ var mongoose = require('mongoose'),
 	User = require('../models/user');
 
 module.exports = function(app) {
+	app.get('/api/posts', function(req, res) {
+		Post.find({}).populate('author issue').exec(function(err, posts) {
+			if (err) return res.status(400);
+			return res.send({posts: posts.reverse()});
+		});
+	});
+
 	app.post('/api/posts', function(req, res) {
 		var post = new Post(req.body);
 		post.save(function(err) {

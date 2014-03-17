@@ -1,9 +1,10 @@
-angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$http', function($location, $http) {
+angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$http', '$scope', function($location, $http, $scope) {
 	$http({
 		method: 'GET',
 		url: '/api/posts'
 	}).success(function(data, status, config, headers) {
-
+		$scope.posts = data.posts;
+		console.log($scope.posts);
 	}).error(function(data, status, config, headers) {
 
 	});
