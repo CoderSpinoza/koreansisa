@@ -112,6 +112,14 @@ div#hot div {
 #hot3 h3 {
   color: white;
 }
+#hot1 .bottom,
+#hot2 .bottom,
+#hot3 .bottom {
+  position: absolute;
+  bottom: 10px;
+  font-weight: bolder;
+  opacity: 1;
+}
 #hot1 {
   background-color: #e74c3c;
   width: 33%;

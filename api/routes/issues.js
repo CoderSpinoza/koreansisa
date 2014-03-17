@@ -4,7 +4,7 @@ var Post = require('../models/post');
 module.exports = function(app) {
 
 	app.get('/api/issues', function(req, res) {
-		Issue.find({}, function(err, issues) {
+		Issue.find({}).populate('posts').exec(function(err, issues) {
 			if (err) return res.status(400).send(err);
 			return res.send({message: "Successfully fetched issues.", issues: issues});
 		});
