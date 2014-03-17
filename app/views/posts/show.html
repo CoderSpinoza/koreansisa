@@ -1,10 +1,13 @@
 <div id="show_post" class="container" ng-controller="postsShowCtrl">
-	<div class="row">
-		<h2>{{post.title}}
+	<div class="row post-header page-header">
+		<div class="col-md-10">
+			<h3>{{post.title}}</h3>
+		</div>
+		<div class="col-md-2 name">
+			<a>{{post.author.name}}</a>
+		</div>
 	</div>
-	<div class="row">
-		<a>{{post.author.name}}</a>
-	</div>
+	
 
 	<div class="row" ng-bind-html="post.text">
 </div>

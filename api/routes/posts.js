@@ -34,7 +34,7 @@ module.exports = function(app) {
 	});
 
 	app.get('/api/posts/:postId', function(req, res) {
-		Post.findById(req.params.postId).populate('author issue').exec(function(err, post) {
+		Post.findByIdAndUpdate(req.params.postId, {$inc: { views: 1}}).populate('author issue').exec(function(err, post) {
 			if (err) return res.status(400).send(err);
 			if (!post) return res.status(404).send();
 			return res.send({post: post});
