@@ -53,7 +53,6 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 		url: '/api/posts/' + $stateParams.postId
 	}).success(function(data, status, config, headers) {
 		$scope.post = data.post;
-		console.log($scope.post);
 	}).error(function(data, status, config, headers) {
 
 	});
