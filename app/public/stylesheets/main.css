@@ -192,3 +192,18 @@ textarea.ta-editor {
 .alert-animate.ng-leave {
   opacity: 1;
 }
+.post-body {
+  min-height: 100px;
+}
+#comments-div {
+  margin-top: 20px;
+}
+#comments-div .comments {
+  margin-top: 30px;
+  clear: right;
+}
+#comments-div .comments .comment {
+  padding-top: 10px;
+  min-height: 80px;
+  border-top: 1px solid #dddddd;
+}

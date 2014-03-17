@@ -23,10 +23,8 @@ module.exports = function(app) {
 			if (!issue) return res.status(404).send();
 			Post.populate(issue.posts, {path: 'author'}, function(err, posts) {
 				if (err) return res.status(400).send(err);
-				console.log(issue);
 				return res.send({issue: issue});
-			})
-			
+			});
 		});
 	});
 };

@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
 	Post = require('../models/post'),
 	Issue = require('../models/issue'),
-	User = require('../models/user');
+	User = require('../models/user'),
+	Comment = require('../models/comment');
 
 module.exports = function(app) {
 	app.get('/api/posts', function(req, res) {
@@ -34,10 +35,14 @@ module.exports = function(app) {
 	});
 
 	app.get('/api/posts/:postId', function(req, res) {
-		Post.findByIdAndUpdate(req.params.postId, {$inc: { views: 1}}).populate('author issue').exec(function(err, post) {
+		Post.findByIdAndUpdate(req.params.postId, {$inc: { views: 1}}).populate('author issue comments').exec(function(err, post) {
 			if (err) return res.status(400).send(err);
 			if (!post) return res.status(404).send();
-			return res.send({post: post});
+			Comment.populate(post.comments, {path: 'user'}, function(err, comments) {
+				if (err) return res.send(400).send(err.toString());
+				return res.send({post: post});
+			});
+			
 		});
 	});
 };
