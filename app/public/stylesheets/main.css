@@ -158,6 +158,10 @@ button.side {
 #show_post {
   width: 1200px;
 }
+#show_post .name {
+  position: relative;
+  top: 30px;
+}
 div.ta-editor,
 textarea.ta-editor {
   margin-top: 20px;
