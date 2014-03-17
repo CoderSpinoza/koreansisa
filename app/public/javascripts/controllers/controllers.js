@@ -39,10 +39,19 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		}
 	});
 
+	$scope.loginButtonPressed = function() {
+		$modal.open({
+			templateUrl: "users/login.html",
+			controller: 'loginCtrl',
+			windowClass: 'wider-modal'
+		});
+	};
+
 	$scope.logout = function() {
 		$window.localStorage.removeItem('currentUser');
 		$window.localStorage.removeItem('token');
 		userService.setUser(undefined);
+		$scope.currentUser = undefined;
 		$location.path("/");
 	}
 

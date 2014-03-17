@@ -47,7 +47,8 @@
             <div class="navbar-collapse collapse navbar-right" id="menu-list" collapse="navCollapsed">
               <ul class="nav navbar-nav">
                 <li ng-repeat="menu in menus" class="menu-{{menu.id}}" ng-class="getClass('/{{menu.id}}')"><a href="#/{{menu.url}}">{{menu.name}}</a></li>
-                <li><a id="loginModalButton" ng-hide="currentUser" ui-sref="login">Login</a></li>
+                <!-- <li><a id="loginModalButton" ng-hide="currentUser" ui-sref="login">Login</a></li> -->
+                <li><a id="loginModalButton" ng-hide="currentUser" ng-click="loginButtonPressed()">Login</a></li>
                 <li class="dropdown" ng-show="currentUser">
                   <a class="dropdown-toggle">{{ currentUser.name }}<b class="caret"></b></a>
                   <ul class="dropdown-menu background">
