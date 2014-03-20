@@ -1,4 +1,4 @@
-angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'userService', '$location', function($scope, $http, userService, $location) {
+angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'userService', '$location', '$modal', function($scope, $http, userService, $location, $modal) {
 	$scope.currentUser = userService.currentUser;
 
 	$http({
@@ -9,6 +9,13 @@ angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'us
 	}).error(function(data, status, config, headers) {
 	});
 
+	$scope.newIssueClicked = function() {
+		$modal.open({
+			templateUrl: "issues/new.html",
+			controller: 'newIssueCtrl',
+		});
+	};
+	
 	$scope.clickIssue = function(issueId) {
 		$location.path("/issues/" + issueId);
 	}
@@ -24,18 +31,23 @@ angular.module('ksControllers').controller('issuesCtrl', ['$scope', '$http', 'us
 		issue.hover = !issue.hover;
 	};
 	
-}]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$stateParams', 'issuesService', function($scope, $http, userService, $stateParams, issuesService) {
+}]).controller('issuesShowCtrl', ['$scope', '$http', 'userService', '$routeParams', 'issuesService', '$modal', function($scope, $http, userService, $routeParams, issuesService, $modal) {
+	$scope.$watch(function() { return userService.currentUser; }, function(currentUser) {
+		$scope.currentUser = userService.currentUser;
+	});
 
-	$scope.issueId = $stateParams.issueId;
+	$scope.issueId = $routeParams.issueId;
+
 	$http({
 		method: 'GET',
-		url: '/api/issues/' + $stateParams.issueId
+		url: '/api/issues/' + $routeParams.issueId
 	}).success(function(data, status, config, headers) {
 		$scope.issue = data.issue;
 		issuesService.issue = $scope.issue;
 	}).error(function(data, status, config, headers) {
 
 	});
+	
 }]).controller('newIssueCtrl', ['$scope', '$http', '$location', '$modalInstance', function($scope, $http, $location, $modalInstance) {
 	$scope.issue = {};
 

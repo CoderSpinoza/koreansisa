@@ -52,7 +52,6 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		$window.localStorage.removeItem('token');
 		userService.setUser(undefined);
 		$scope.currentUser = undefined;
-		$location.path("/");
 	}
 
 }]).controller('homeCtrl', ['$scope', function($scope) {

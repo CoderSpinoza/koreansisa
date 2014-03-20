@@ -13,7 +13,6 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 		}).result.then(function(result) {
 
 		}, function() {
-			return $state.transitionTo("home");
 		});
 
 	};
@@ -74,10 +73,6 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 				$window.localStorage.token = data.user.apikey;
 				userService.setUser(data.user);
 				$modalInstance.close();
-				if (window.localStorage.prevUrl) {
-					$location.path(window.localStorage.prevUrl);
-					window.localStorage.prevUrl = undefined;
-				}
 			}).error(function(data, status, config, headers) {
 				if (status == 404) {
 					userService.fbUser = $scope.fbUser;
@@ -259,7 +254,6 @@ angular.module('ksControllers').controller('loginCtrl', ['$scope', '$http', '$mo
 			userService.setUser(data.user);
 			$scope.submitting = false;
 			$modalInstance.close();
-			$location.path("/");
 		}).error(function(error, response) {
 			$scope.submitting = false;
 		});
