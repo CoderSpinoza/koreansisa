@@ -8,7 +8,7 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 	}).error(function(data, status, config, headers) {
 
 	});
-}]).controller('postsNewCtrl', ['$window', '$scope', '$http', 'userService', 'issuesService', '$state', '$stateParams', '$location', function($window, $scope, $http, userService, issuesService, $state, $stateParams, $location) {
+}]).controller('postsNewCtrl', ['$window', '$scope', '$http', 'userService', 'issuesService', '$routeParams', '$location', function($window, $scope, $http, userService, issuesService, $routeParams, $location) {
 
 	if (!userService.currentUser) {
 		$window.localStorage.prevUrl = $location.path();
@@ -17,7 +17,7 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 	}
 	$http({
 		method: 'GET',
-		url: '/api/issues/' + $stateParams.issueId
+		url: '/api/issues/' + $routeParams.issueId
 	}).success(function(data, status, config, headers) {
 		$scope.issue = data.issue;
 	}).error(function(data, status, config, headers) {
@@ -40,17 +40,17 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
     	}
 		}).success(function(data, status, config, headers) {
 			console.log(data);
-			$location.path("/issues/" + $stateParams.issueId);
+			$location.path("/issues/" + $routeParams.issueId);
 		}).error(function(data, status, config, headers) {
 
 		});
 	};
 
-}]).controller('postsEditCtrl', ['$scope', '$http', 'userService', '$state', '$stateParams', '$location', function($scope, $http, userService, $state, $stateParams, $location) {
+}]).controller('postsEditCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', function($scope, $http, userService, $routeParams, $location) {
 
 	$http({
 		method: 'GET',
-		url: '/api/posts/' + $stateParams.postId
+		url: '/api/posts/' + $routeParams.postId
 	}).success(function(data, status, config, headers) {
 		$scope.post = data.post;
 	}).error(function(data, status, config, headers) {
@@ -60,7 +60,7 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 	$scope.submit = function() {
 		$http({
 			method: 'PUT',
-			url: "/api/posts/" + $stateParams.postId
+			url: "/api/posts/" + $routeParams.postId
 		}).success(function(data, status, config, headers) {
 
 		}).error(function(data, status, config, headers) {
@@ -70,11 +70,11 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 
 
 
-}]).controller('postsShowCtrl', ['$scope', '$http', 'userService', '$state', '$stateParams', '$location', function($scope, $http, userService, $state, $stateParams, $location) {
+}]).controller('postsShowCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', function($scope, $http, userService, $routeParams, $location) {
 
 	$http({
 		method: 'GET',
-		url: '/api/posts/' + $stateParams.postId
+		url: '/api/posts/' + $routeParams.postId
 	}).success(function(data, status, config, headers) {
 		$scope.post = data.post;
 	}).error(function(data, status, config, headers) {
