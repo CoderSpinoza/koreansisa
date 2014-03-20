@@ -39,7 +39,6 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
         'Content-type': 'application/json'
     	}
 		}).success(function(data, status, config, headers) {
-			console.log(data);
 			$location.path("/issues/" + $routeParams.issueId);
 		}).error(function(data, status, config, headers) {
 
