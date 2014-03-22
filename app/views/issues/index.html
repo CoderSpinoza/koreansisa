@@ -1,10 +1,10 @@
 <div id="issues_div" ng-controller="issuesCtrl">
-	<div class="row" id="heading">
+	<div id="heading" class="row">
 		<div class="issue-add" ng-show="currentUser.role == 'admin'">
 			<button type="button" class="btn btn-success" ng-click="newIssueClicked()">Add a New Issue</button>
 		</div>
 	</div>
-	<div class="row">
+	<div>
 		<h2>Hot Issues</h2>
 	</div>
 	
@@ -15,12 +15,12 @@
 			{{issues[0].summary}}
 			
 			<div class="bottom col-md-11" ng-show="issues[0].hover">
-				<div class="row">
+				<div>
 					<span class="col-md-4 text-center">Conservative</span>
 					<span class="col-md-4 text-center">Liberal</span>
 					<span class="col-md-4 text-center">Posts</span>
 				</div>
-				<div class="row">
+				<div>
 					<span class="col-md-4 text-center">{{numConservative(issues[0])}}</span>
 					<span class="col-md-4 text-center">{{numLiberal(issues[0])}}</span>
 					<span class="col-md-4 text-center">{{issues[0].posts.length}}</span>
@@ -32,12 +32,12 @@
 			{{issues[1].description}}
 			{{issues[1].summary}}
 			<div class="bottom col-md-11" ng-show="issues[1].hover">
-				<div class="row">
+				<div>
 					<span class="col-md-4 text-center">Conservative</span>
 					<span class="col-md-4 text-center">Liberal</span>
 					<span class="col-md-4 text-center">Posts</span>
 				</div>
-				<div class="row">
+				<div>
 					<span class="col-md-4 text-center">{{numConservative(issues[1])}}</span>
 					<span class="col-md-4 text-center">{{numLiberal(issues[1])}}</span>
 					<span class="col-md-4 text-center">{{issues[1].posts.length}}</span>
@@ -62,7 +62,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" id="issues">
+	<div id="issues" class="row">
 		<h2>Issues</h2>
 		<ul id="issues_list" class="list">
 			<li ng-repeat="issue in issues" class="col-md-12">

@@ -19,6 +19,9 @@ ksApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
 		when('/home', {
 			templateUrl: '/home/index.html'
 		}).
+		when('/about', {
+			templateUrl: '/home/about.html'
+		}).
 		when('/issues', {
 			templateUrl: '/issues/index.html'
 		}).

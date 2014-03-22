@@ -54,6 +54,23 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		$scope.currentUser = undefined;
 	}
 
-}]).controller('homeCtrl', ['$scope', function($scope) {
+}]).controller('homeCtrl', ['$scope', '$http', function($scope, $http) {
+	$http({
+		method: 'GET',
+		url: '/api/issues'
+	}).success(function(data, status, config, headers) {
+		$scope.issues = data.issues;
+	}).error(function(data, status, config, headers) {
 
+	});
+
+	$http({
+		method: 'GET',
+		url: '/api/posts'
+	}).success(function(data, status, config, headers) {
+		$scope.posts = data.posts;
+		console.log($scope.posts);
+	}).error(function(data, status, config, headers) {
+
+	});
 }]);
