@@ -1,17 +1,17 @@
 <div id="show_post" ng-controller="postsShowCtrl">
 	<div class="row post-header page-header">
-		<div class="col-md-10 row text-right">
+		<div class="col-md-10">
 			<h3>{{post.title}}</h3>
 		</div>
-		<div class="col-md-2 name">
+		<div class="col-md-2 name text-right">
 			<a>{{post.author.name}}</a>
 		</div>
 	</div>
-	<div class="row post-body" ng-bind-html="post.text"></div>
+	<div class="post-body" ng-bind-html="post.text"></div>
 
 	<div id="comments-div" ng-controller="newCommentsCtrl">
-		<h3 class="page-header row">Comments</h3>
-		<div class="write_comment row" >
+		<h3 class="page-header">Comments</h3>
+		<div class="write_comment" >
 			<form role="form" name="commentForm" ng-submit="submit()">
 				<div class="form-group">
 					<textarea class="form-control" ng-model="comment.text" placeholder="What do you think about this post?"></textarea>

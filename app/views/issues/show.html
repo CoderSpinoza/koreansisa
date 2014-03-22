@@ -1,21 +1,21 @@
 <div id="show_post" ng-controller="issuesShowCtrl">
-	<div class="row" id="heading">
+	<div id="heading">
 		<div class="issue-add" ng-show="currentUser">
 			<a type="button" class="btn btn-success" href="/#/issues/{{issue._id}}/new">Add a New Post</a>
 		</div>
 	</div>
-	<div class="row page-header">
+	<div class="page-header">
 		<h2>{{issue.title}}</h2>
 	</div>
-	<div class="row jumbotron">
+	<div class="jumbotron">
 		<h4>{{issue.description}}</h4>
 	</div>
 
-	<div class="row page-header">
+	<div class="page-header">
 		<h3>Posts</h3>
 	</div>
 
-	<div class="row">
+	<div>
 		<ul id="posts_list" class="list">
 
 			<li ng-repeat="post in issue.posts" class="col-md-12">
