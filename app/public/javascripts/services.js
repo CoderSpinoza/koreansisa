@@ -47,4 +47,13 @@ var ksServices = angular.module('ksServices', []).config(function($httpProvider)
     issuesService.issue = issue;
   }
   return issuesService;
+}]).service('globalAlertsService', ['$http', function($http) {
+  var globalAlertsService = {};
+  globalAlertsService.alerts = [];
+
+  globalAlertsService.deleteAlert = function(index) {
+    this.alerts.splice(index, 1);
+  };
+  
+  return globalAlertsService;
 }]);
