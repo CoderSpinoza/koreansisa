@@ -1,13 +1,20 @@
-angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$http', '$scope', function($location, $http, $scope) {
+angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$http', '$scope', 'globalAlertsService', function($location, $http, $scope, globalAlertsService) {
 	$http({
 		method: 'GET',
 		url: '/api/posts'
 	}).success(function(data, status, config, headers) {
 		$scope.posts = data.posts;
-		console.log($scope.posts);
 	}).error(function(data, status, config, headers) {
 
 	});
+	$scope.alerts = globalAlertsService.alerts;
+
+	$scope.$watch(function() { return globalAlertsService.alerts; }, function(alerts) {
+		$scope.alerts = globalAlertsService.alerts;
+	});
+
+	$scope.deleteAlert = globalAㅣlertsService.deleteAlert;
+
 }]).controller('postsNewCtrl', ['$window', '$scope', '$http', 'userService', 'issuesService', '$routeParams', '$location', function($window, $scope, $http, userService, issuesService, $routeParams, $location) {
 
 	if (!userService.currentUser) {
@@ -69,7 +76,7 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 
 
 
-}]).controller('postsShowCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', function($scope, $http, userService, $routeParams, $location) {
+}]).controller('postsShowCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', '$modal', 'globalAlertsService', function($scope, $http, userService, $routeParams, $location, $modal, globalAlertsService) {
 
 	$http({
 		method: 'GET',
@@ -77,6 +84,35 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 	}).success(function(data, status, config, headers) {
 		$scope.post = data.post;
 	}).error(function(data, status, config, headers) {
-
 	});
+
+	$scope.deletePostModal = function() {
+		$modal.open({
+			templateUrl: 'posts/confirmation.html',
+			controller: 'postsDeleteCtrl'
+		}).result.then(function() {
+			deletePost();
+		}, function() {
+		});
+	};
+
+	var deletePost = function() {
+		$http({
+			method: 'DELETE',
+			url: '/api/posts/' + $routeParams.postId
+		}).success(function(data, status, config, headers) {
+			globalAlertsService.alerts.push({type: 'success', message: data.message});
+			$location.path("/posts");
+		}).error(function(data, status, config, headers) {
+
+		});
+	};
+}]).controller('postsDeleteCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
+	$scope.yes = function() {
+		$modalInstance.close();
+	};
+
+	$scope.no = function() {
+		$modalInstance.dismiss('cancel');
+	};
 }]);

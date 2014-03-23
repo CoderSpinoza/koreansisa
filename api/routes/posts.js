@@ -26,9 +26,7 @@ module.exports = function(app) {
 						user.save(function(err) {
 							return res.send({post: post});
 						});
-						
 					})
-					
 				});
 			});			
 		});
@@ -42,7 +40,13 @@ module.exports = function(app) {
 				if (err) return res.send(400).send(err.toString());
 				return res.send({post: post});
 			});
-			
+		});
+	});
+
+	app.delete('/api/posts/:postId', function(req, res) {
+		Post.findById(req.params.postId).remove(function(err, result) {
+			if (err) return res.status(400).send(err);
+			return res.send({message: "Successfully deleted your post"});
 		});
 	});
 };

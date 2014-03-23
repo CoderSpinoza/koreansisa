@@ -1,5 +1,8 @@
 <div id="show_post" ng-controller="postsShowCtrl">
 	<div class="row post-header page-header">
+		<div class="col-md-offset-10 col-md-2 text-right">
+			<button type="button" class="close display:block" ng-click='deletePostModal()'>&times;</button>
+		</div>
 		<div class="col-md-10">
 			<h3>{{post.title}}</h3>
 		</div>
@@ -8,15 +11,16 @@
 		</div>
 	</div>
 	<div class="post-body" ng-bind-html="post.text"></div>
-
+	<div class="post-footer text-right">
+	</div>
 	<div id="comments-div" ng-controller="newCommentsCtrl">
 		<h3 class="page-header">Comments</h3>
 		<div class="write_comment" >
-			<form role="form" name="commentForm" ng-submit="submit()">
+			<form role="form" name="commentForm" ng-submit="submit()" class="text-right">
 				<div class="form-group">
 					<textarea class="form-control" ng-model="comment.text" placeholder="What do you think about this post?"></textarea>
 				</div>
-				<input type="submit" value="Submit" class="btn btn-success pull-right">
+				<input type="submit" value="Submit" class="btn btn-success">
 			</form>
 		</div>
 		<div class="comments">

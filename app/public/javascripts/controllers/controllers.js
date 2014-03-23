@@ -17,7 +17,7 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		"url": "issues"
 	}, {
 		"id": "trending",
-		"name": "Trending",
+		"name": "Posts",
 		"url": "posts"
 	}];
 
@@ -69,7 +69,6 @@ ksControllers.controller('menuCtrl', ['$scope', '$location', '$modal', '$window'
 		url: '/api/posts'
 	}).success(function(data, status, config, headers) {
 		$scope.posts = data.posts;
-		console.log($scope.posts);
 	}).error(function(data, status, config, headers) {
 
 	});

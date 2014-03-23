@@ -1,4 +1,10 @@
 <div id="trending" ng-controller="postsIndexCtrl">
+	<div class="col-md-12">
+		<alert ng-repeat="alert in alerts" type="alert.type" close="deleteAlert($index)" class="alert-animate">{{alert.message}}</alert>
+	</div>
+	<div class="col-md-12">
+		<h3>Posts</h3>
+	</div>
 	<table class="table table-striped table-bordered table-condensed">
 		<tr>
 			<th>Favorite</th>
