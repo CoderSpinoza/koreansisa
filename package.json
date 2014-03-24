@@ -31,6 +31,7 @@
     "mocha-cakes": "*",
     "chai": "*",
     "chai-as-promised": "*",
-    "database-cleaner": "*"
+    "database-cleaner": "*",
+    "connect-multiparty": "*"
   }
 }
