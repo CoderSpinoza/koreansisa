@@ -1,5 +1,6 @@
 <div id="new_post" ng-controller="postsNewCtrl">
 	<form class="form" role="form" name="postForm" novalidate ng-submit="submit()">
+		<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)" class="alert-animate">{{alert.message}}</alert>
 		<h2>Add a new post</h2>
 		<div class="form-group">
 			Issue: <a>{{issue.title}}</a>
@@ -10,9 +11,38 @@
 			<button type="button" class="btn btn-primary side" ng-model="post.side" name="side" btn-checkbox>Liberal</button>
 		</div>
 		<div class="form-group">
-			<input class="form-control" type="text" placeholder="Enter title" name="title" ng-model="post.title">
+			<input class="form-control" type="text" placeholder="Enter title" name="title" ng-model="post.title" ng-focus="focusEditor()" ng-blur="blurEditor()">
 		</div>
-		<div text-angular name="text" ng-model="post.text"></div>
+		<div text-angular ng-model="post.text" clsss="dnd" ta-text-editor-class="post-editor" text-angular-name="text" ta-dnd="readFiles" ng-blur="blurEditor()" ng-focus="focusEditor()"></div>
+		<div class="form-group">
+			<table id="files">
+				<tr>
+					<th>
+					</th>
+			</table>
+		</div>
+		<table class="table table-striped table-condensed table-bordered">
+			<h3>Attachments</h3>
+			<tr>
+				<td>Index</td>
+				<td>Name</td>
+				<td>Size</td>
+				<td>Thumbnail</td>
+				<td>Upload</td>
+			</tr>
+			<tr class="text-center" ng-show="data.length == 0">
+				<td colspan="5">Drop your images here</td>
+			</tr>
+			<tr ng-repeat="file in data">
+				<td>{{$index + 1}}</td>
+				<td>{{file.name}}</td>
+				<td>{{file.size | filesize }}</td>
+				<td><img ng-src="{{file.link}}" width=100 height=100></td>
+				<td><progressbar max=100 value="file.progress" type="primary" class="progress-striped active"></progressbar></td>
+			</tr>
+
+		</table>
+
 		<div class="form-group">
 			<input type="submit" value="Submit" class="btn btn-success">
 		</div>
