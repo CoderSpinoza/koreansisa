@@ -13,10 +13,9 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 		$scope.alerts = globalAlertsService.alerts;
 	});
 
-	$scope.deleteAlert = globalAㅣlertsService.deleteAlert;
+	$scope.deleteAlert = globalAlertsService.deleteAlert;
 
-}]).controller('postsNewCtrl', ['$window', '$scope', '$http', 'userService', 'issuesService', '$routeParams', '$location', function($window, $scope, $http, userService, issuesService, $routeParams, $location) {
-
+}]).controller('postsNewCtrl', ['$window', '$scope', '$http', 'userService', 'issuesService', '$routeParams', '$location', '$q', function($window, $scope, $http, userService, issuesService, $routeParams, $location, $q) {
 	if (!userService.currentUser) {
 		$window.localStorage.prevUrl = $location.path();
 		$location.path("/login");
@@ -33,6 +32,8 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 
 	$scope.currentUser = userService.currentUser;
 	$scope.post = {};
+	$scope.uploadingImage = false;
+	$scope.alerts = [];
 
 	$scope.submit = function() {
 		$scope.post.side = $scope.post.side == true ? "Conservative" : "Liberal";
@@ -50,6 +51,102 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 		}).error(function(data, status, config, headers) {
 
 		});
+	};
+
+
+	// file uploading
+	$scope.data = [];
+	$scope.files = [];
+	var reader = new FileReader();
+	$scope.progress = 0;
+
+
+	$scope.textAngularOpts = {};
+
+	$scope.$watch('credentials', function(credentials) {
+		if (credentials) {
+			var index = $scope.data.length - 1;
+			var key = 'images/' + new Date().getUTCFullYear() + "/" + (new Date().getUTCMonth() + 1) + "/" + new Date().getUTCDate() + "/" + Date.now() + $scope.data[$scope.data.length - 1].name;
+			var data = {
+				bucket: 'koreansisa',
+				AWSAccessKeyId: credentials.s3Key,
+				key: key,
+				acl: 'public-read',
+				policy: credentials.policyBase64,
+				'Content-Type': $scope.data[$scope.data.length - 1].type,
+				signature: credentials.signature,
+				file: $scope.data[$scope.data.length - 1]
+			};
+			var formData = new FormData();
+			for (var v in data) {
+				formData.append(v, data[v]);
+			}
+			var xhr = new XMLHttpRequest();
+
+			// XmlHttpRequest events
+			xhr.upload.addEventListener("progress", function(e) {
+				if (e.lengthComputable) {
+					$scope.$apply(function() {
+						$scope.data[index].progress = (e.loaded / e.total) * 100;
+					});			
+				}
+			});
+			xhr.addEventListener("load", function(e) {
+				$scope.$apply(function() {
+					$scope.uploadingImage = false;
+					$scope.data[index].link = 'https://' + credentials.s3Policy.conditions[0].bucket + '.s3.amazonaws.com/' + key;
+				});
+				
+				document.execCommand("insertImage", false, $scope.data[index].link);
+			});
+			xhr.addEventListener("error", function(e) {
+
+			});
+			xhr.addEventListener("abort", function(e) {
+
+			});				
+			
+			xhr.open('POST', 'https://' + credentials.s3Policy.conditions[0].bucket + '.s3.amazonaws.com/', true);
+			xhr.send(formData);
+			$scope.uploadingImage = true;
+			if (!$scope.focused) {
+				$scope.alerts.push({type: 'warning', message: '에디터를 사용하고 있지 않다면 이미지가 자동으로 삽입되지 않습니다. 아래 첨부 파일 테이블에서 직접 드래그 하십시오.'});
+			}
+		};
+	});
+
+	reader.onload = function(e) {
+		$scope.files.push(e.target.result);
+		$http({
+			method: 'GET',
+			url: '/api/s3/credentials/' + $scope.data[$scope.data.length - 1].type.split('/')[1]
+		}).success(function(data, status, config, headers) {
+			$scope.credentials = data.credentials;
+		});
+	};
+
+	$scope.readFiles = function(files) {
+		for (var i = 0; i < files.length; i++) {
+			$scope.$apply(function() {
+				$scope.data.push(files[i]);
+			});
+      reader.readAsDataURL(files[i]);
+		}
+	};
+	$scope.focusEditor = function() {
+		$scope.focused = true;
+		console.log("focus");
+	};
+	$scope.blurEditor = function() {
+		$scope.focused = false;
+		console.log("blur");
+		if ($scope.uploadingImage) {
+			$scope.alerts.push({type: 'warning', message: '에디터를 사용하고 있지 않다면 이미지가 자동으로 삽입되지 않습니다. 아래 첨부 파일 테이블에서 직접 드래그 하십시오.'});
+		}
+	};
+
+	$scope.closeAlert = function(index) {
+		$scope.alerts.splice(index, 1);
 	};
 
 }]).controller('postsEditCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', function($scope, $http, userService, $routeParams, $location) {

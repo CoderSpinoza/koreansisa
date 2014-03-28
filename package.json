@@ -32,6 +32,8 @@
     "chai": "*",
     "chai-as-promised": "*",
     "database-cleaner": "*",
-    "connect-multiparty": "*"
+    "connect-multiparty": "*",
+    "multiparty": "*",
+    "mongoose-attachments-aws2js": "*"
   }
 }
