@@ -94,6 +94,7 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 			xhr.addEventListener("load", function(e) {
 				$scope.$apply(function() {
 					$scope.uploadingImage = false;
+					$scope.readyToInsert = true;
 					$scope.data[index].link = 'https://' + credentials.s3Policy.conditions[0].bucket + '.s3.amazonaws.com/' + key;
 				});
 				
@@ -108,10 +109,8 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 			
 			xhr.open('POST', 'https://' + credentials.s3Policy.conditions[0].bucket + '.s3.amazonaws.com/', true);
 			xhr.send(formData);
+			$scope.readyToInsert = false;
 			$scope.uploadingImage = true;
-			if (!$scope.focused) {
-				$scope.alerts.push({type: 'warning', message: '에디터를 사용하고 있지 않다면 이미지가 자동으로 삽입되지 않습니다. 아래 첨부 파일 테이블에서 직접 드래그 하십시오.'});
-			}
 		};
 	});
 
@@ -125,23 +124,12 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 		});
 	};
 
-	$scope.readFiles = function(files) {
-		for (var i = 0; i < files.length; i++) {
+	$scope.dropEvent = function(event) {
+		for (var i = 0; i < event.dataTransfer.files.length; i++) {
 			$scope.$apply(function() {
-				$scope.data.push(files[i]);
+				$scope.data.push(event.dataTransfer.files[i]);
 			});
-      reader.readAsDataURL(files[i]);
-		}
-	};
-	$scope.focusEditor = function() {
-		$scope.focused = true;
-		console.log("focus");
-	};
-	$scope.blurEditor = function() {
-		$scope.focused = false;
-		console.log("blur");
-		if ($scope.uploadingImage) {
-			$scope.alerts.push({type: 'warning', message: '에디터를 사용하고 있지 않다면 이미지가 자동으로 삽입되지 않습니다. 아래 첨부 파일 테이블에서 직접 드래그 하십시오.'});
+      reader.readAsDataURL(event.dataTransfer.files[i]);
 		}
 	};
 
@@ -149,8 +137,11 @@ angular.module('ksControllers').controller('postsIndexCtrl', ['$location', '$htt
 		$scope.alerts.splice(index, 1);
 	};
 
-}]).controller('postsEditCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', function($scope, $http, userService, $routeParams, $location) {
+	$scope.uploadComplete = function(file) {
+		return file.progress == 100;
+	};
 
+}]).controller('postsEditCtrl', ['$scope', '$http', 'userService', '$routeParams', '$location', function($scope, $http, userService, $routeParams, $location) {
 	$http({
 		method: 'GET',
 		url: '/api/posts/' + $routeParams.postId
