@@ -13,7 +13,7 @@
 		<div class="form-group">
 			<input class="form-control" type="text" placeholder="Enter title" name="title" ng-model="post.title" ng-focus="focusEditor()" ng-blur="blurEditor()">
 		</div>
-		<div text-angular ng-model="post.text" clsss="dnd" ta-text-editor-class="post-editor" text-angular-name="text" ta-dnd="readFiles" ng-blur="blurEditor()" ng-focus="focusEditor()"></div>
+		<div text-angular ng-model="post.text" clsss="dnd" ta-text-editor-class="post-editor" text-angular-name="text" cs-dnd="dropEvent" cs-dnd-target="taTextElement" cs-focus="readyToInsert"></div>
 		<div class="form-group">
 			<table id="files">
 				<tr>
@@ -38,9 +38,8 @@
 				<td>{{file.name}}</td>
 				<td>{{file.size | filesize }}</td>
 				<td><img ng-src="{{file.link}}" width=100 height=100></td>
-				<td><progressbar max=100 value="file.progress" type="primary" class="progress-striped active"></progressbar></td>
+				<td><progressbar max=100 value="file.progress" type="primary" ng-class="{'progress-striped': !uploadComplete(file), 'active': !uploadComplete(file)}"></progressbar></td>
 			</tr>
-
 		</table>
 
 		<div class="form-group">
